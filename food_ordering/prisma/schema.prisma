@@ -12,7 +12,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-enum usertype{
+enum roletype{
   Admin
   User
 }
@@ -34,7 +34,7 @@ model Users{
   emailId String
   reviews Reviews[]
   orders Orders[]
-  type usertype
+  role roletype
 }
 
 model Reviews{
