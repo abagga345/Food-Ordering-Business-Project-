@@ -1,6 +1,6 @@
-
+import axios from "axios"
 import CredentialsProvider from "next-auth/providers/credentials";
-export NEXTAUTH_CONFIG={
+export const NEXTAUTH_CONFIG={
     providers:[
         CredentialsProvider({
             name:"Credentials",
@@ -12,12 +12,21 @@ export NEXTAUTH_CONFIG={
                 if (!credentials?.username || !credentials?.password) {
                     return null;
                 }
-                //make a backend request to verify
-
-                //if matched return object
-                //else return null
-                
-                
+                try{
+                    let exists=await axios.post("http://localhost:3000/api/signin",{
+                        username:credentials.username,
+                        password:credentials.password
+                    });
+                    if (exists.status!=200){
+                        return null;
+                    }
+                    return {
+                        id:exists.data.username,
+                        role:exists.data.role
+                    }
+                }catch(err){
+                    return null;
+                }
             }
 
         })
@@ -25,10 +34,13 @@ export NEXTAUTH_CONFIG={
     secret:process.env.JWT_SECRET,
     callbacks:{
         jwt:({token,user}:any)=>{
-
+            token.username=token.sub;
+            return token;
         },
         session:({session,token,user}:any)=>{
-            
+            session.role=token.role;
+            session.username=token.username;
+            return session;
         }
     }
 }

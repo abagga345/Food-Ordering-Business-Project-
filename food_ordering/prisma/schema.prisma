@@ -34,7 +34,7 @@ model Users{
   emailId String
   reviews Reviews[]
   orders Orders[]
-  role roletype
+  role roletype @default(User)
 }
 
 model Reviews{
