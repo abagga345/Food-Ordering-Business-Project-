@@ -37,6 +37,11 @@ export const visibility=z.object({
     visibility:z.boolean()
 })
 
+export const paymentId=z.object({
+    id:z.number().int(),
+    paymentId:z.string().max(30)
+})
+
 export const checkout=z.object({
     description:z.string().max(75),
     houseStreet:z.string().max(70),

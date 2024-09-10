@@ -1,4 +1,4 @@
-import { withAuth } from "next-auth/middleware";
+import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -8,8 +8,8 @@ interface TokenInterface {
 }
 
 export default withAuth(
-  function middleware(req: NextRequest) {
-    const token = req.nextauth.token as TokenInterface | undefined;
+  function middleware(req: NextRequestWithAuth) {
+    const token = req.nextauth.token;
 
     console.log(token);
 
@@ -29,16 +29,3 @@ export const config = {
   matcher: ['/api/admin/:path*', '/api/user/:path*', '/admin/:path*', '/checkout', '/profile'],
 };
 
-// admin role token = admin routes 
-// user role token = user routes
-//admin , user routes are to be secured
-
-// LEFT 
-
-export default function middleware(){
-
-}
-
-export const config={
-    matcher:["/api/admin","/api/user"]
-}
