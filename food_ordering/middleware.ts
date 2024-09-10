@@ -23,21 +23,6 @@ export default withAuth(
 
     return NextResponse.next(); 
   },
-  {
-    callbacks: {
-      authorized: ({ token, req }: { token: TokenInterface | undefined; req: NextRequest }) => {
-        const path = req.nextUrl.pathname;
-
-        if (path.startsWith("/api/admin") && token?.role === "admin") {
-          return true;
-        }
-        if (path.startsWith("/api/user") && token?.role === "user") {
-          return true;
-        }
-        return false; 
-      },
-    },
-  }
 );
 
 export const config = {
