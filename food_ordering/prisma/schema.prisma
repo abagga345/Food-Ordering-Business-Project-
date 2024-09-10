@@ -65,7 +65,7 @@ model Menu{
   id Int @id @default(autoincrement())
   imageUrl String
   amount Int
-  visibility Boolean
+  visibility Boolean @default(true)
   description String
   itemreviews Reviews[]
   orders OrderItems[]

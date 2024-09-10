@@ -25,7 +25,6 @@ export const addItem=z.object({
     imageUrl:z.string().url(),
     amount:z.number().int().min(100).max(5000),
     description:z.string().max(40),
-    visibility:z.boolean()
 }).required()
 
 export const status=z.object({
