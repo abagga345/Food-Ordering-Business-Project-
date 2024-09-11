@@ -1,4 +1,4 @@
-import { withAuth } from "next-auth/middleware";
+import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import { NextRequestWithAuth } from "next-auth/middleware";
 import type { NextRequest } from "next/server";
@@ -10,12 +10,8 @@ interface TokenInterface {
 }
 
 export default withAuth(
-  function middleware(req: NextRequestWithAuth) {
-    const token = req.nextauth?.token;
-
-    if (!token) {
-      return NextResponse.redirect(new URL('/signin', req.url));
-    }
+  function middleware(req: NextRequest) {
+    const token = req.nextauth.token as TokenInterface | undefined;
 
     console.log(token);
 
