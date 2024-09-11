@@ -19,13 +19,6 @@ export default withAuth(
 
     console.log(token);
 
-    try {
-      jwt.verify(token as unknown as string, process.env.JWT_SECRET as string);
-    } catch (err) {
-      console.error('JWT verification failed', err);
-      return NextResponse.redirect(new URL('/signin', req.url));
-    }
-
     if (token.role === "admin" && req.nextUrl.pathname.startsWith('/api/admin')) {
       return NextResponse.next();
     }
