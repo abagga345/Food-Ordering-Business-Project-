@@ -9,11 +9,12 @@ export const NEXTAUTH_CONFIG={
                 password:{label:"password",type:"password",placeholder:"Password"}
             },
             async authorize(credentials:any){
+                console.log(credentials);
                 if (!credentials?.username || !credentials?.password) {
                     return null;
                 }
                 try{
-                    let exists=await axios.post("http://localhost:3000/api/signin",{
+                    let exists=await axios.post("http://localhost:3000/api/signIn",{
                         username:credentials.username,
                         password:credentials.password
                     });
@@ -25,6 +26,7 @@ export const NEXTAUTH_CONFIG={
                         role:exists.data.role
                     }
                 }catch(err){
+                    console.log(err);
                     return null;
                 }
             }

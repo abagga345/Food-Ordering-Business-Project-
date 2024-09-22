@@ -9,6 +9,14 @@ export async function  POST(req:NextRequest){
         return NextResponse.json({"message":"Invalid Inputs"},{status:400});
     }
     try{
+        let exists=await prisma.users.findFirst({
+            where:{
+                username:body.username
+            }
+        });
+        if (exists!==null){
+            return NextResponse.json({"message":"User Already Exists"},{status:400});
+        }
         let added_user=await prisma.users.create(
             {
                 data:{
