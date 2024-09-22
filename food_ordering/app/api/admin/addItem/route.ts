@@ -13,7 +13,8 @@ export async function POST(req:NextRequest){
             data:{
                 imageUrl:body.imageUrl,
                 description:body.description,
-                amount:body.amount
+                amount:body.amount,
+                title:body.title
             }
         });
         return NextResponse.json({"message":"Item added successfully","itemId":added_item.id});

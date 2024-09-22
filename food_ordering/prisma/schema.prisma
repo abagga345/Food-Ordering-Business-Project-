@@ -55,6 +55,7 @@ model Orders{
   status orderstatus
   houseStreet String
   landmark String
+  timestamp DateTime @default(now())
   city String
   pincode String
   user Users @relation(fields: [username],references: [username])
@@ -63,8 +64,10 @@ model Orders{
 
 model Menu{
   id Int @id @default(autoincrement())
+  title String
   imageUrl String
   amount Int
+  creationDate DateTime @default(now())
   visibility Boolean @default(true)
   description String
   itemreviews Reviews[]
