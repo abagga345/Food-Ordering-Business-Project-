@@ -22,8 +22,8 @@ export const review=z.object({
 }).required()
 
 export const addItem=z.object({
-    imageUrl:z.string().url(),
-    amount:z.number().int().min(100).max(5000),
+    imageUrl:z.string(),
+    amount:z.number().int(),
     description:z.string().max(50),
     title:z.string().max(40)
 }).required()
@@ -59,7 +59,7 @@ export const checkout=z.object({
 export const editUser=z.object({
     firstName:z.string().optional(),
     lastName:z.string().optional(),
-    ContactNo:z.string().length(10).optional(),
+    contactNo:z.string().length(10).optional(),
     password:z.string().min(5).max(30).optional()
 })
 

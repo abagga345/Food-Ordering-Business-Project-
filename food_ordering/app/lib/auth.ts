@@ -1,6 +1,9 @@
 import axios from "axios"
 import CredentialsProvider from "next-auth/providers/credentials";
 export const NEXTAUTH_CONFIG={
+    session : {
+        strategy : 'jwt' as const,
+    },
     providers:[
         CredentialsProvider({
             name:"Credentials",
@@ -18,6 +21,7 @@ export const NEXTAUTH_CONFIG={
                         username:credentials.username,
                         password:credentials.password
                     });
+                    console.log(exists);
                     if (exists.status!=200){
                         return null;
                     }
@@ -34,14 +38,17 @@ export const NEXTAUTH_CONFIG={
         })
     ],
     secret:process.env.JWT_SECRET,
-    callbacks:{
-        jwt:({token,user}:any)=>{
-            token.username=token.sub;
+    callbacks: {
+        jwt: ({ token, user }:any) => {
+            if (user) {
+                token.username = user.id;
+                token.role = user.role;
+            }
             return token;
         },
-        session:({session,token,user}:any)=>{
-            session.role=token.role;
-            session.username=token.username;
+        session: ({ session, token }:any) => {
+            session.user.role = token.role;
+            session.user.username = token.username;
             return session;
         }
     }

@@ -7,7 +7,7 @@ export async function GET(req:NextRequest){
     }
     let pageNo=parseInt(temp);
     try{
-        let availableItems=prisma.menu.findMany({
+        let availableItems=await prisma.menu.findMany({
             where:{
                 visibility:true
             },

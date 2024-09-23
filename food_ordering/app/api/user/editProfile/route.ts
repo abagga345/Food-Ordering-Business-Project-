@@ -4,6 +4,7 @@ import prisma from "@/db";
 import { getServerSession } from "next-auth";
 import { NEXTAUTH_CONFIG } from "@/app/lib/auth";
 
+
 export async function PUT(req:NextRequest){
     let body=await req.json();
     let typeCheck=editUser.safeParse(body);
@@ -14,9 +15,12 @@ export async function PUT(req:NextRequest){
         return NextResponse.json({"message":"Invalid Inputs"},{status:400});
     }
     let session=await getServerSession(NEXTAUTH_CONFIG);
-    let username=session.username;
+    if (!session) {
+        return NextResponse.json({ message: "Not Authenticated" }, { status: 401 });
+    }
+    let username=session.user.username;
     try{
-       let updated_user=prisma.users.update({
+       let updated_user=await prisma.users.update({
             where:{
                 username:username
             },

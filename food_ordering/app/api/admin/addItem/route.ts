@@ -4,6 +4,7 @@ import prisma from "@/db";
 
 export async function POST(req:NextRequest){
     let body=await req.json();
+
     let typeCheck=addItem.safeParse(body);
     if (typeCheck["success"]===false){
         return NextResponse.json({"message":"Invalid Inputs"},{status:400});
@@ -19,6 +20,7 @@ export async function POST(req:NextRequest){
         });
         return NextResponse.json({"message":"Item added successfully","itemId":added_item.id});
     }catch(err){
+        
         return NextResponse.json({"message":"Internal Server Error"},{status:500});
     }
 }

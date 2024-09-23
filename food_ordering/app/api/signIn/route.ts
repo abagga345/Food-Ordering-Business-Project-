@@ -10,6 +10,7 @@ export async function POST(req:NextRequest){
     }
     try{
         let search=await prisma.users.findFirst({where:{username:body.username,password:body.password},select:{role:true,username:true}});
+     
         if (search===null){
             return NextResponse.json({"message":"Unauthorised"},{status:401});
         }
