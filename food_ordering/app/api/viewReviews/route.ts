@@ -13,7 +13,15 @@ export async function GET(req:NextRequest){
                 itemId:itemId
             }
         })
-        return NextResponse.json({"message":"Review fetched successfully",reviews:reviews});
+        let avg_reviews = await prisma.reviews.aggregate({
+            where: {
+              itemId: itemId,
+            },
+            _avg: {
+              rating: true, 
+            },
+        });
+        return NextResponse.json({"message":"Review fetched successfully",reviews:reviews,avgReviews:avg_reviews});
     }catch(err){
         return NextResponse.json({"message":"Internal Server Error"},{status:500});
     }

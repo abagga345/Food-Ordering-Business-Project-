@@ -14,6 +14,7 @@ export async function GET(req:NextRequest){
             skip:(pageNo-1)*20,
             take:20
         });
+        
         return NextResponse.json({"message":"Menu Fetched Successully",items:availableItems});
     }catch(err){
         return NextResponse.json({"message":"Internal Server Error"},{status:500});
