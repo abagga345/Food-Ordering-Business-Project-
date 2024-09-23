@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db";
+import { addItem } from "@/app/lib/schemas/schema";
 
 export async function GET(req:NextRequest){
     const id=req.nextUrl.searchParams.get("id");

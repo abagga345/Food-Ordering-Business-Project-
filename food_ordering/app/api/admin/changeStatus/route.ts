@@ -11,14 +11,15 @@ export async function PUT(req:NextRequest){
     try{
         let updatedStatus=await prisma.orders.update({
             where:{
-                id:body.id
+                id:body.orderId
             },
             data:{
                 status:body.status
             }
         });
-        return NextResponse.json({"message":"Visibility updated Successfully"});
+        return NextResponse.json({"message":"Status updated Successfully"});
     }catch(err){
+        console.log(err);
         return NextResponse.json({"message":"Internal Server Error"},{status:500});
     }
 }
