@@ -29,7 +29,7 @@ export default function Home() {
     });
 
     if (result?.error) {
-      setError(result.error);
+      setError(result.error + " Error");
     } else {
       // Redirect to a different page after successful sign-in
       window.location.href = "/dashboard"; // Change to your desired path

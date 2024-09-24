@@ -1,5 +1,6 @@
 import axios from "axios"
 import CredentialsProvider from "next-auth/providers/credentials";
+import { signIn } from "next-auth/react";
 export const NEXTAUTH_CONFIG={
     session : {
         strategy : 'jwt' as const,
@@ -21,7 +22,7 @@ export const NEXTAUTH_CONFIG={
                         email:credentials.email,
                         password:credentials.password
                     });
-                    console.log(exists);
+                    
                     if (exists.status!=200){
                         return null;
                     }
@@ -30,7 +31,6 @@ export const NEXTAUTH_CONFIG={
                         role:exists.data.role
                     }
                 }catch(err){
-                    console.log(err);
                     return null;
                 }
             }
@@ -51,5 +51,8 @@ export const NEXTAUTH_CONFIG={
             session.user.email = token.email;
             return session;
         }
+    },
+    pages:{
+        signIn:"/login"
     }
 }
