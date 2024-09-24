@@ -4,8 +4,10 @@ import "./globals.css";
 import Link from "next/link";
 import logo from "../assets/logoMain.jpg";
 import Image from "next/image";
+import localFont from "next/font/local";
 
 const inter = Inter({ subsets: ["latin"] });
+const nexa = localFont({ src: "../public/fonts/nexa/Nexa-ExtraLight.ttf" });
 
 export const metadata: Metadata = {
   title: "Gandhi Achaar 6 ranga",
@@ -23,7 +25,7 @@ export default function RootLayout({
         <link rel="icon" href={logo.src}></link>
       </head>
       <body className="px-1">
-        <div className={inter.className}>
+        <div className={nexa.className}>
           <div className="flex flex-row border-solid border-y-[1px] items-center justify-between p-1">
             <div className="flex flex-row gap-1">
               <a
@@ -100,19 +102,21 @@ export default function RootLayout({
             </div>
             <div></div>
           </div>
-          <div className="flex flex-row justify-between items-center py-4">
-            <div className="flex flex-row gap-8 text-lg">
+          <div className="flex flex-row justify-between items-center py-4 px-8">
+            <div className="flex flex-row gap-8 text-md">
               <Link href="/" className="">
-                <p className="hover-underline-animation">All Products</p>
+                <p className="hover-underline-animation font-semibold">
+                  All Products
+                </p>
               </Link>
-              <Link href="/">
+              {/* <Link href="/">
                 {" "}
                 <p className="hover-underline-animation">Reviews</p>
-              </Link>
-              <Link href="/">
+              </Link> */}
+              {/* <Link href="/">
                 {" "}
                 <p className="hover-underline-animation">Contact Us</p>
-              </Link>
+              </Link> */}
             </div>
             <div>
               <Image src={logo} alt="logo" className="h-16 w-16"></Image>

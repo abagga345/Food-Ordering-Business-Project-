@@ -41,3 +41,12 @@ body {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
+
+@font-face {
+  font-family: "Nexa";
+  src: url("/fonts/nexa/Nexa-Regular.woff2") format("woff2"),
+    url("/fonts/nexa/Nexa-Regular.woff") format("woff"),
+    url("/fonts/nexa/Nexa-Regular.ttf") format("truetype"); /* Add the .ttf file */
+  font-weight: normal;
+  font-style: normal;
+}
