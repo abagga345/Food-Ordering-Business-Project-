@@ -37,7 +37,7 @@ export default function Home() {
   };
   return (
     <div>
-      <div className="flex flex-col justify-center items-center my-10">
+      <div className="flex flex-col justify-center items-center mt-10 mb-32">
         <div className="text-3xl font-bold mb-24">Log In</div>
         <div className="flex flex-row gap-10 justify-between items-center w-[60%] mx-auto">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[40%]">
@@ -61,7 +61,7 @@ export default function Home() {
             {error && <div className="text-red-500">{error}</div>}
             <button
               type="submit"
-              className="bg-[#EA72AB] text-white p-2 rounded font-semibold hover:scale-105 hover:bg-[#c4397b]"
+              className="bg-green-600 text-white p-2 rounded font-semibold hover:scale-105 hover:bg-green-700"
             >
               Sign In
             </button>
@@ -74,8 +74,8 @@ export default function Home() {
               and promotions. To opt out, click unsubscribe in our emails.
             </p>
             <Link
-              href="/signin"
-              className="bg-[#EA72AB] text-white p-2 rounded font-semibold my-6 hover:scale-115 hover:bg-[#c4397b]"
+              href="/signup"
+              className="bg-green-600 text-white p-2 rounded font-semibold my-6 hover:scale-115 hover:bg-green-700"
             >
               Register
             </Link>

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import logo from "../assets/logoMain.jpg";
 import Image from "next/image";
-import localFont from "next/font/local";
 
 const inter = Inter({ subsets: ["latin"] });
-const nexa = localFont({ src: "../public/fonts/nexa/Nexa-ExtraLight.ttf" });
+const poppins = Poppins({ subsets: ["latin"], weight: "300" });
+// const nexa = localFont({ src: "../public/fonts/nexa/Nexa-ExtraLight.ttf" });
+// const poppins = localFont({ src: "../public/fonts/nexa/Nexa-ExtraLight.ttf" });
 
 export const metadata: Metadata = {
   title: "Gandhi Achaar 6 ranga",
@@ -25,8 +26,8 @@ export default function RootLayout({
         <link rel="icon" href={logo.src}></link>
       </head>
       <body className="px-1">
-        <div className={nexa.className}>
-          <div className="flex flex-row border-solid border-y-[1px] items-center justify-between p-1">
+        <div className={poppins.className}>
+          <div className="flex flex-row border-solid border-y-[1px] items-center justify-between p-1 w-[100%]">
             <div className="flex flex-row gap-1 p-2">
               <a
                 target="_blank"
@@ -97,106 +98,151 @@ export default function RootLayout({
                 </svg>
               </a>
             </div>
-            <div className="text-md font-bold me-36">
+            <div className="text-md font-bold me-36 ">
               No Leakage Shipping. Delivering across 🇮🇳
             </div>
             <div></div>
           </div>
-          <div className="flex flex-row justify-between items-center py-4 px-8">
-            <div className="flex flex-row gap-8 text-md">
+          <div className="flex flex-row justify-between items-center py-4 px-8 w-[100%] mx-auto">
+            <div className="flex flex-row gap-8 text-md w-[33.3%] ">
               <Link href="/" className="">
                 <p className="hover-underline-animation font-semibold">
                   All Products
                 </p>
               </Link>
-              {/* <Link href="/">
-                {" "}
-                <p className="hover-underline-animation">Reviews</p>
-              </Link> */}
-              {/* <Link href="/">
-                {" "}
-                <p className="hover-underline-animation">Contact Us</p>
-              </Link> */}
             </div>
-            <div>
+            <div className="w-[33.3%] flex flex-row justify-items-center">
               <Image src={logo} alt="logo" className="h-16 w-16 ms-36"></Image>
-            </div>{" "}
-            {/* logo */}
-            <div className="flex flex-row gap-1 justify-center items-center">
-              <Link href="/account" className="px-2 py-3.5">
-                <span className="sf__tooltip-item block sf__tooltip-bottom sf__tooltip-style-2">
-                  <svg
-                    className="w-[20px] h-[20px]"
-                    fill="currentColor"
-                    stroke="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"
-                  >
-                    <path d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z"></path>
-                  </svg>
-                </span>
-              </Link>
-              <Link
-                href="/checkout"
-                className="relative py-2 sf-cart-icon px-2 whitespace-nowrap cursor-pointer cart-icon"
-                aria-label="Shopping Cart"
-              >
-                <span className="sf__tooltip-item block sf__tooltip-bottom sf__tooltip-style-2">
-                  <svg
-                    className="w-[20px] h-[20px]"
-                    fill="currentColor"
-                    stroke="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"
-                  >
-                    <path d="M352 128C352 57.42 294.579 0 224 0 153.42 0 96 57.42 96 128H0v304c0 44.183 35.817 80 80 80h288c44.183 0 80-35.817 80-80V128h-96zM224 48c44.112 0 80 35.888 80 80H144c0-44.112 35.888-80 80-80zm176 384c0 17.645-14.355 32-32 32H80c-17.645 0-32-14.355-32-32V176h48v40c0 13.255 10.745 24 24 24s24-10.745 24-24v-40h160v40c0 13.255 10.745 24 24 24s24-10.745 24-24v-40h48v256z"></path>
-                  </svg>
-                </span>
-              </Link>
-              {children}
             </div>
+            {/* logo */}
+            <div className=" w-[33.3%]">
+              <div className="flex flex-row gap-1 justify-end items-center">
+                <Link href="/account" className="px-2 py-3.5">
+                  <span className="sf__tooltip-item block sf__tooltip-bottom sf__tooltip-style-2">
+                    <svg
+                      className="w-[20px] h-[20px]"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                    >
+                      <path d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z"></path>
+                    </svg>
+                  </span>
+                </Link>
+                <Link
+                  href="/checkout"
+                  className="relative py-2 sf-cart-icon px-2 whitespace-nowrap cursor-pointer cart-icon"
+                  aria-label="Shopping Cart"
+                >
+                  <span className="sf__tooltip-item block sf__tooltip-bottom sf__tooltip-style-2">
+                    <svg
+                      className="w-[20px] h-[20px]"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                    >
+                      <path d="M352 128C352 57.42 294.579 0 224 0 153.42 0 96 57.42 96 128H0v304c0 44.183 35.817 80 80 80h288c44.183 0 80-35.817 80-80V128h-96zM224 48c44.112 0 80 35.888 80 80H144c0-44.112 35.888-80 80-80zm176 384c0 17.645-14.355 32-32 32H80c-17.645 0-32-14.355-32-32V176h48v40c0 13.255 10.745 24 24 24s24-10.745 24-24v-40h160v40c0 13.255 10.745 24 24 24s24-10.745 24-24v-40h48v256z"></path>
+                    </svg>
+                  </span>
+                </Link>
+              </div>
+            </div>{" "}
           </div>
-        </div>
+          {children}
 
-        <footer>
-          <div className="flex gap-60 p-16 bg-green-200">
-            <ul className="text-lg">
+          <footer>
+            <div className="flex gap-36 p-16 bg-green-200">
+              <ul className="text-lg">
                 <li className="text-3xl font-bold mb-5">Get in Touch</li>
                 <li className="font-semibold mb-3">Manufacturing Address:</li>
                 <p className="w-64 text-gray-700 mb-4">
-                Shop No, 6675, Khari Baoli Rd, Fatehpuri, Chandni Chowk, New Delhi, Delhi, 110006
+                  Shop No, 6675, Khari Baoli Rd, Fatehpuri, Chandni Chowk, New
+                  Delhi, Delhi, 110006
                 </p>
 
-              <li className="font-semibold mb-4">Store Hours</li>
-              <li className="text-gray-700">Monday to Saturday</li>
-              <li className="mb-4 text-gray-700">10 AM to 6 PM</li>
-              <li className="mb-4 text-gray-700">+91-9810148950</li>
-              <li className="mb-4 text-gray-700">+91-9910913737</li>
-              <li className="text-gray-700">Email: achar6ranga.query@gmail.com</li>
-            </ul>
-            <ul className="text-lg">
-              <li className="text-3xl font-bold mb-5">Policies</li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">Privacy Policy</a></li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">Terms of service</a></li>
-              <li className="text-gray-700"><a className="hover-underline-thin" href="#">Return Policy</a></li>
-            </ul>
-            <ul className="text-lg">
-              <li className="text-3xl font-bold mb-5">Shop Pickles</li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">Try Sample Packs</a></li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">15% OFF Combo</a></li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">Mango Pickles</a></li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">Mixed Pickles</a></li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">Spicy Pickles</a></li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">Sweet Pickles</a></li>
-              <li className="text-gray-700"><a className="hover-underline-thin" href="#">All Products</a></li>
-            </ul>
-            <ul className="text-lg">
-              <li className="text-3xl font-bold mb-5">Useful Links</li>
-              <li className="text-gray-700 mb-2"><a className="hover-underline-thin" href="#">Track Order</a></li>
-              <li className="text-gray-700"><a className="hover-underline-thin" href="#">About Achar6ranga</a></li>
-            </ul>
-          </div>
-        </footer>
+                <li className="font-semibold mb-4">Store Hours</li>
+                <li className="text-gray-700">Monday to Saturday</li>
+                <li className="mb-4 text-gray-700">10 AM to 6 PM</li>
+                <li className="mb-4 text-gray-700">+91-9810148950</li>
+                <li className="mb-4 text-gray-700">+91-9910913737</li>
+                <li className="text-gray-700">
+                  Email: achar6ranga.query@gmail.com
+                </li>
+              </ul>
+              <ul className="text-lg">
+                <li className="text-3xl font-bold mb-5">Policies</li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    Terms of service
+                  </a>
+                </li>
+                <li className="text-gray-700">
+                  <a className="hover-underline-thin" href="#">
+                    Return Policy
+                  </a>
+                </li>
+              </ul>
+              <ul className="text-lg">
+                <li className="text-3xl font-bold mb-5">Shop Pickles</li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    Try Sample Packs
+                  </a>
+                </li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    15% OFF Combo
+                  </a>
+                </li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    Mango Pickles
+                  </a>
+                </li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    Mixed Pickles
+                  </a>
+                </li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    Spicy Pickles
+                  </a>
+                </li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    Sweet Pickles
+                  </a>
+                </li>
+                <li className="text-gray-700">
+                  <a className="hover-underline-thin" href="#">
+                    All Products
+                  </a>
+                </li>
+              </ul>
+              <ul className="text-lg">
+                <li className="text-3xl font-bold mb-5">Useful Links</li>
+                <li className="text-gray-700 mb-2">
+                  <a className="hover-underline-thin" href="#">
+                    Track Order
+                  </a>
+                </li>
+                <li className="text-gray-700">
+                  <a className="hover-underline-thin" href="#">
+                    About Achar6ranga
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </footer>
+        </div>
       </body>
     </html>
   );
