@@ -39,15 +39,15 @@ export default function Home() {
     <div>
       <div className="flex flex-col justify-center items-center my-10">
         <div className="text-3xl font-bold mb-24">Log In</div>
-        <div className="flex flex-row gap-10 justify-between items-center w-[40%] mx-auto">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-row gap-10 justify-between items-center w-[60%] mx-auto">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[40%]">
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="border p-2 rounded"
+              className="border p-2 rounded w-full"
             />
 
             <input
@@ -61,11 +61,12 @@ export default function Home() {
             {error && <div className="text-red-500">{error}</div>}
             <button
               type="submit"
-              className="bg-blue-500 text-white p-2 rounded font-semibold"
+              className="bg-[#EA72AB] text-white p-2 rounded font-semibold hover:scale-105 hover:bg-[#c4397b]"
             >
               Sign In
             </button>
           </form>
+          <div className="border-solid border-l-2 w-1 h-24"></div>
           <div className="w-[40%]">
             <p className="text-lg font-bold">New Customer</p>
             <p className="my-4">
@@ -74,9 +75,9 @@ export default function Home() {
             </p>
             <Link
               href="/signin"
-              className="bg-blue-500 text-white p-2 rounded font-semibold my-6"
+              className="bg-[#EA72AB] text-white p-2 rounded font-semibold my-6 hover:scale-115 hover:bg-[#c4397b]"
             >
-              Sign In
+              Register
             </Link>
           </div>
         </div>
