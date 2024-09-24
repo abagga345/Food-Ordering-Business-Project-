@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className="px-1">
         <div className={nexa.className}>
           <div className="flex flex-row border-solid border-y-[1px] items-center justify-between p-1">
-            <div className="flex flex-row gap-1">
+            <div className="flex flex-row gap-1 p-2">
               <a
                 target="_blank"
                 className="px-2 flex items-center"
@@ -97,7 +97,7 @@ export default function RootLayout({
                 </svg>
               </a>
             </div>
-            <div className="text-md">
+            <div className="text-md font-bold me-36">
               No Leakage Shipping. Delivering across 🇮🇳
             </div>
             <div></div>
@@ -119,7 +119,7 @@ export default function RootLayout({
               </Link> */}
             </div>
             <div>
-              <Image src={logo} alt="logo" className="h-16 w-16"></Image>
+              <Image src={logo} alt="logo" className="h-16 w-16 ms-36"></Image>
             </div>{" "}
             {/* logo */}
             <div className="flex flex-row gap-1 justify-center items-center">
@@ -153,9 +153,9 @@ export default function RootLayout({
                   </svg>
                 </span>
               </Link>
+              {children}
             </div>
           </div>
-          {children}
         </div>
       </body>
     </html>
