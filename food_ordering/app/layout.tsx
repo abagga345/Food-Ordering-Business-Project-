@@ -153,7 +153,7 @@ export default function RootLayout({
           {children}
 
           <footer>
-            <div className="flex gap-60 p-16 bg-green-200">
+            <div className="flex gap-36 p-16 bg-green-200">
               <ul className="text-lg">
                 <li className="text-3xl font-bold mb-5">Get in Touch</li>
                 <li className="font-semibold mb-3">Manufacturing Address:</li>
