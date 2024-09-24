@@ -4,8 +4,8 @@ export default function Home() {
   return (
     <div>
       <div>
-        <button onClick={()=>{signIn()}}>Sign In</button>
-        <button onClick={()=>{signOut()}}>Sign Out</button>
+        <button className="font-bold mx-2" onClick={()=>{signIn()}}>Sign In</button>
+        <button className="font-bold mx-2" onClick={()=>{signOut()}}>Sign Out</button>
       </div>
     </div>
   );

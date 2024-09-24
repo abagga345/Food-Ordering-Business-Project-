@@ -18,11 +18,11 @@ export async function PUT(req:NextRequest){
     if (!session) {
         return NextResponse.json({ message: "Not Authenticated" }, { status: 401 });
     }
-    let username=session.user.username;
+    let email=session.user.email;
     try{
        let updated_user=await prisma.users.update({
             where:{
-                username:username
+                email:email
             },
             data:body
         });

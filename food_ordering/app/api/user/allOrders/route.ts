@@ -5,11 +5,11 @@ import { NEXTAUTH_CONFIG } from "@/app/lib/auth";
 
 export async function GET(req:NextRequest){
     let session=await getServerSession(NEXTAUTH_CONFIG);
-    let username=session.username;
+    let email=session.email;
     try{
         let myOrders=await prisma.orders.findMany({
             where:{
-                username:username
+                email:email
             },
             include:{
                 items:{

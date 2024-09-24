@@ -11,14 +11,14 @@ export async function POST(req:NextRequest){
         return NextResponse.json({"message":"Invalid Inputs"},{status:400});
     }
     const session=await getServerSession(NEXTAUTH_CONFIG);
-    let username=session.user.username;
+    let email=session.user.email;
     try{
         let added_review=await prisma.reviews.create({
             data:{
                 rating:body.rating,
                 description:body.description,
                 itemId:body.itemId,
-                username:username
+                email:email
             }
         })
         return NextResponse.json({"message":"Review added Successfully"});

@@ -11,7 +11,7 @@ export async function  POST(req:NextRequest){
     try{
         let exists=await prisma.users.findFirst({
             where:{
-                username:body.username
+                email:body.email
             }
         });
         if (exists!==null){
@@ -23,8 +23,7 @@ export async function  POST(req:NextRequest){
                     firstName:body.firstName,
                     lastName:body.lastName,
                     contactNo:body.contactNo,
-                    emailId:body.emailId,
-                    username:body.username,
+                    email:body.email,
                     password:body.password
                 }
         })
