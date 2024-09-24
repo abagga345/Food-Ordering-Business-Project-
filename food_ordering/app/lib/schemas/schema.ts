@@ -1,12 +1,11 @@
 import {z} from 'zod'
 
 export const signup=z.object({
-    username:z.string().min(4,{"message":"Username length is very short"}).max(30,{"message":"Username length is very large"}),
+    username:z.string().email(),
     firstName:z.string({message:"FirstName should be a string"}),
     lastName:z.string({message:"LastName should be a string"}),
     contactNo:z.string().length(10,{"message":"ContactNo not of 10 digits"}),
     password:z.string({message:"Password should be a string"}).min(5,{"message":"Username length is very short"}).max(30,{"message":"Password length is very large"}),
-    emailId:z.string().email().max(256)
 }).required()
 
 export const signin=z.object({

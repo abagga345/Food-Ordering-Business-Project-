@@ -31,7 +31,6 @@ model Users{
   username String @unique
   password String
   contactNo String
-  emailId String
   reviews Reviews[]
   orders Orders[]
   role roletype @default(User)

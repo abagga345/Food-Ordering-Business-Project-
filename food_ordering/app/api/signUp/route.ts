@@ -23,7 +23,6 @@ export async function  POST(req:NextRequest){
                     firstName:body.firstName,
                     lastName:body.lastName,
                     contactNo:body.contactNo,
-                    emailId:body.emailId,
                     username:body.username,
                     password:body.password
                 }
