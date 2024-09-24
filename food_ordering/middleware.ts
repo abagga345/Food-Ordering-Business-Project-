@@ -6,7 +6,7 @@ export default withAuth(
     const token = req.nextauth?.token;
 
     if (!token) {
-      return NextResponse.redirect(new URL('/', req.url));
+      return NextResponse.redirect(new URL('/login', req.url));
     }
     else if (token.role === "Admin" && (req.nextUrl.pathname.startsWith('/api/admin') || req.nextUrl.pathname.startsWith('/admin'))) {
       return NextResponse.next();
@@ -15,7 +15,7 @@ export default withAuth(
     else if (token.role === "User" && (req.nextUrl.pathname.startsWith('/api/user') || req.nextUrl.pathname.startsWith('/checkout') || req.nextUrl.pathname.startsWith('/profile'))) {
       return NextResponse.next();
     }
-    return NextResponse.redirect(new URL('/', req.url));
+    return NextResponse.redirect(new URL('/login', req.url));
   },
 );
 export const config = {
