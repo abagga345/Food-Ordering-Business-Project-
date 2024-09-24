@@ -8,17 +8,17 @@ export const NEXTAUTH_CONFIG={
         CredentialsProvider({
             name:"Credentials",
             credentials:{
-                username:{label:"username",type:"text",placeholder:"Username"},
+                email:{label:"email",type:"text",placeholder:"Email Id"},
                 password:{label:"password",type:"password",placeholder:"Password"}
             },
             async authorize(credentials:any){
                 console.log(credentials);
-                if (!credentials?.username || !credentials?.password) {
+                if (!credentials?.email || !credentials?.password) {
                     return null;
                 }
                 try{
                     let exists=await axios.post("http://localhost:3000/api/signIn",{
-                        username:credentials.username,
+                        email:credentials.email,
                         password:credentials.password
                     });
                     console.log(exists);
@@ -26,7 +26,7 @@ export const NEXTAUTH_CONFIG={
                         return null;
                     }
                     return {
-                        id:exists.data.username,
+                        id:exists.data.email,
                         role:exists.data.role
                     }
                 }catch(err){
@@ -41,14 +41,14 @@ export const NEXTAUTH_CONFIG={
     callbacks: {
         jwt: ({ token, user }:any) => {
             if (user) {
-                token.username = user.id;
+                token.email = user.id;
                 token.role = user.role;
             }
             return token;
         },
         session: ({ session, token }:any) => {
             session.user.role = token.role;
-            session.user.username = token.username;
+            session.user.email = token.email;
             return session;
         }
     }
