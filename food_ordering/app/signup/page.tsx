@@ -1,5 +1,5 @@
 "use client";
-import { signIn } from "next-auth/react";
+import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -25,18 +25,31 @@ export default function Home() {
     e.preventDefault();
     setError("");
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result?.error) {
-      setError(result.error);
-    } else {
-      // Redirect to a different page after successful sign-in
-      window.location.href = "/dashboard"; // Change to your desired path
+    try{
+      const result = await axios.post("http://localhost:3000/api/signUp",{
+        firstName:firstName,
+        lastName:lastName,
+        email:email,
+        password:password,
+        contactNo:contactNumber
+      })
+      window.location.href = "/dashboard";
+  }
+  catch(err){
+    if (axios.isAxiosError(err)) {
+      if (err.response){
+        setError(err.response.data.message);
+      }
+      else{
+        setError("Unknown Error");
+      }
     }
+    else{
+      setError("Unknown error");
+    }
+  }
+
+    
   };
   return (
     <div>
@@ -94,7 +107,7 @@ export default function Home() {
             type="submit"
             className="bg-green-600 text-white p-2 rounded font-semibold hover:scale-105 hover:bg-green-700"
           >
-            Sign In
+            Sign Up
           </button>
           <Link
             href="/login"
