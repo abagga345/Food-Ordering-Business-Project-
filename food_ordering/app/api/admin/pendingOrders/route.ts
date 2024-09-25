@@ -9,9 +9,17 @@ export async function GET(req:NextRequest){
                 status: {
                     not: 'Delivered'
                 }
+            },
+            include:{
+                items:{
+                    select:{
+                        quantity:true,
+                        item:true
+                    }
+                }
             }
         });
-        return NextResponse.json({"message":"Unconfirmed orders fetched successfully",orders:pending_orders});
+        return NextResponse.json({"message":"Pending orders fetched successfully",orders:pending_orders});
     }catch(err){
         return NextResponse.json({"message":"Internal Server Error"},{status:500});
     }
