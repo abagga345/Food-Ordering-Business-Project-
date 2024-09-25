@@ -22,7 +22,7 @@ const SidePanel = () => {
           <Link
             key={item.href}
             href={item.href}
-            className={`block px-4 py-2 rounded hover:bg-gray-700 ${
+            className={`block px-4 py-2 mb-2 rounded hover:bg-gray-700 ${
               pathname === item.href ? "bg-gray-700" : ""
             }`}
           >
