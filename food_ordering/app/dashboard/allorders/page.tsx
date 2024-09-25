@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -8,15 +9,19 @@ const AllOrders = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
+      const toastId = toast.loading("Loading orders...");
       try {
         const response = await fetch("/api/admin/allOrders");
+        toast.dismiss(toastId);
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
         const data = await response.json();
-        setOrders(data);
-      } catch (error) {
+        setOrders(data.orders);
+        toast.success("Orders loaded successfully!", { id: toastId });
+      } catch (error: any) {
         setError(error.message);
+        toast.error(`Error: ${error.message}`, { id: toastId });
       } finally {
         setLoading(false);
       }
@@ -32,7 +37,7 @@ const AllOrders = () => {
     <div>
       <h1 className="text-2xl font-semibold mb-4">All Orders</h1>
       <ul className="space-y-4">
-        {orders.map((order) => (
+        {/* {orders.map((order) => (
           <li
             key={order.id}
             className="p-4 bg-white shadow rounded border border-gray-200"
@@ -41,7 +46,7 @@ const AllOrders = () => {
             <p className="text-gray-600">Customer: {order.customerName}</p>
             <p className="text-gray-600">Total: ${order.totalAmount}</p>
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );

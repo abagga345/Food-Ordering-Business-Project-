@@ -5,8 +5,10 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   { href: "/dashboard/allorders", label: "All Orders" },
-  { href: "/dashboard/item2", label: "Item 2" },
-  { href: "/dashboard/item3", label: "Item 3" },
+  { href: "/dashboard/pendingorders", label: "Pending Orders" },
+  { href: "/dashboard/analytics", label: "Analytics" },
+  { href: "/dashboard/additem", label: "Add Item" },
+  { href: "/dashboard/menu", label: "Menu" },
 ];
 
 const SidePanel = () => {
