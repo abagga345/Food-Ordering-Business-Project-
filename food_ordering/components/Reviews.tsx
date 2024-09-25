@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -5,7 +6,7 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import "./testimonials.css";
+import "./reviews.css";
 
 // Import required modules
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
