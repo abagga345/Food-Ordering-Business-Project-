@@ -38,12 +38,12 @@ model Users{
 
 model Reviews{
   id Int @id @default(autoincrement())
+  firstName String
+  lastName String
   email String
-  itemId Int
   description String
   rating Int 
   user Users @relation(fields: [email],references: [email])
-  item Menu  @relation(fields: [itemId],references: [id])
 }
 
 model Orders{
@@ -69,7 +69,6 @@ model Menu{
   creationDate DateTime @default(now())
   visibility Boolean @default(true)
   description String
-  itemreviews Reviews[]
   orders OrderItems[]
 }
 

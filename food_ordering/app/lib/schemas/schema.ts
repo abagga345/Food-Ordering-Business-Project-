@@ -16,8 +16,7 @@ export const signin=z.object({
 
 export const review=z.object({
     rating:z.literal(0).or(z.literal(1)).or(z.literal(2)).or(z.literal(3)).or(z.literal(4)).or(z.literal(5)),
-    description:z.string().min(1).max(70),
-    itemId:z.number().int()
+    description:z.string().min(1).max(70)
 }).required()
 
 export const addItem=z.object({
