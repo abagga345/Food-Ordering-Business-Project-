@@ -2,6 +2,7 @@
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 {
   /* <button
@@ -19,6 +20,7 @@ export default function Home() {
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const toastId = toast.loading("Loading...");
     e.preventDefault();
     setError("");
 
@@ -28,9 +30,12 @@ export default function Home() {
       password,
     });
 
+    toast.dismiss(toastId);
     if (result?.error) {
-      setError(result.error + " Error");
+      toast.error("Login Failed");
+      setError(result.error);
     } else {
+      toast.success("Login Successful");
       // Redirect to a different page after successful sign-in
       window.location.href = "/dashboard"; // Change to your desired path
     }

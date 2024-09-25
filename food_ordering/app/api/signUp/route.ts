@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signup } from "@/app/lib/schemas/schema";
 import prisma from "@/db";
+import bcrypt from "bcrypt";
 
 export async function  POST(req:NextRequest){
     let body=await req.json();
@@ -17,6 +18,7 @@ export async function  POST(req:NextRequest){
         if (exists!==null){
             return NextResponse.json({"message":"User Already Exists"},{status:400});
         }
+        const hashed = await bcrypt.hash(body.password,5);
         let added_user=await prisma.users.create(
             {
                 data:{
@@ -24,7 +26,7 @@ export async function  POST(req:NextRequest){
                     lastName:body.lastName,
                     contactNo:body.contactNo,
                     email:body.email,
-                    password:body.password
+                    password:hashed
                 }
         })
         return NextResponse.json({"message":"SignUp successful"});
