@@ -25,7 +25,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href={logo.src}></link>
       </head>
-      <body className="px-1">
+      <body>
         <div className={poppins.className}>
           <div className="flex flex-row border-solid border-y-[1px] items-center justify-between p-1 w-[100%]">
             <div className="flex flex-row gap-1 p-2">
@@ -103,7 +103,7 @@ export default function RootLayout({
             </div>
             <div></div>
           </div>
-          <div className="flex flex-row justify-between items-center py-4 px-8 w-[100%] mx-auto">
+          <div className="flex flex-row items-center py-4 px-8 w-[100%] mx-auto">
             <div className="flex flex-row gap-8 text-md w-[33.3%] ">
               <Link href="/" className="">
                 <p className="hover-underline-animation font-semibold">
@@ -111,8 +111,8 @@ export default function RootLayout({
                 </p>
               </Link>
             </div>
-            <div className="w-[33.3%] flex flex-row justify-items-center">
-              <Image src={logo} alt="logo" className="h-16 w-16 ms-36"></Image>
+            <div className="w-[33.3%] flex flex-row justify-center items-center">
+              <Image src={logo} alt="logo" className="h-16 w-16 center"></Image>
             </div>
             {/* logo */}
             <div className=" w-[33.3%]">
