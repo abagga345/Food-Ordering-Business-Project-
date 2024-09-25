@@ -10,7 +10,7 @@ export async function POST(req:NextRequest){
         return NextResponse.json({"message":"Invalid Inputs"},{status:400});
     }
     try{
-        let search=await prisma.users.findFirst({where:{email:body.email},select:{role:true,email:true,password: true}});
+        let search=await prisma.users.findFirst({where:{email:body.email},select:{role:true,email:true,password: true,firstName:true,lastName:true}});
          
         if (search===null){
             return NextResponse.json({"message":"Unauthorised"},{status:401});
@@ -19,7 +19,7 @@ export async function POST(req:NextRequest){
         if (!match) {
             return NextResponse.json({msg : "Invalid Password"},{status:401});
         }
-        return NextResponse.json({"message":"Authentication successful",email:search["email"],role:search["role"]})
+        return NextResponse.json({"message":"Authentication successful",email:search["email"],role:search["role"],firstName:search["firstName"],lastName:search["lastName"]})
     }catch(err){
         return NextResponse.json({"message":"Internal Server Error"},{status:500});
     }

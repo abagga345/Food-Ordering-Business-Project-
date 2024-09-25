@@ -28,7 +28,9 @@ export const NEXTAUTH_CONFIG={
                     }
                     return {
                         id:exists.data.email,
-                        role:exists.data.role
+                        role:exists.data.role,
+                        firstName : exists.data.firstName,
+                        lastName: exists.data.lastName
                     }
                 }catch(err){
                     return null;
@@ -43,12 +45,16 @@ export const NEXTAUTH_CONFIG={
             if (user) {
                 token.email = user.id;
                 token.role = user.role;
+                token.firstName=user.firstName;
+                token.lastName=user.lastName;
             }
             return token;
         },
         session: ({ session, token }:any) => {
             session.user.role = token.role;
             session.user.email = token.email;
+            session.user.firstName = token.firstName;
+            session.user.lastName= token.lastName;
             return session;
         }
     },

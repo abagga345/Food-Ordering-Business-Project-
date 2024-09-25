@@ -3,21 +3,9 @@ import prisma from "@/db";
 import { addItem } from "@/app/lib/schemas/schema";
 
 export async function GET(req: NextRequest) {
-  const id = req.nextUrl.searchParams.get("id");
-  if (id === null) {
-    return NextResponse.json({ message: "Invalid Inputs" }, { status: 400 });
-  }
-  const itemId = parseInt(id);
   try {
-    let reviews = await prisma.reviews.findMany({
-      where: {
-        itemId: itemId,
-      },
-    });
+    let reviews = await prisma.reviews.findMany({});
     let avg_reviews = await prisma.reviews.aggregate({
-      where: {
-        itemId: itemId,
-      },
       _avg: {
         rating: true,
       },
