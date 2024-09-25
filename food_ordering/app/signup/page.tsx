@@ -2,6 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -12,34 +13,36 @@ export default function Home() {
   const [contactNumber, setContactNumber] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const toastId = toast.loading("Loading...");
     e.preventDefault();
     setError("");
 
-    try{
-      const result = await axios.post("http://localhost:3000/api/signUp",{
-        firstName:firstName,
-        lastName:lastName,
-        email:email,
-        password:password,
-        contactNo:contactNumber
-      })
+    try {
+      const result = await axios.post("http://localhost:3000/api/signUp", {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        contactNo: contactNumber,
+      });
       window.location.href = "/dashboard";
-  }
-  catch(err){
-    if (axios.isAxiosError(err)) {
-      if (err.response){
-        setError(err.response.data.message);
-      }
-      else{
-        setError("Unknown Error");
+      toast.dismiss(toastId);
+      toast.success("SignUp Successful");
+    } catch (err) {
+      toast.dismiss(toastId);
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          toast.error(err.response.data.message);
+          setError(err.response.data.message);
+        } else {
+          toast.error("Unknown Error");
+          setError("Unknown Error");
+        }
+      } else {
+        toast.error("Unknown Error");
+        setError("Unknown error");
       }
     }
-    else{
-      setError("Unknown error");
-    }
-  }
-
-    
   };
   return (
     <div>
