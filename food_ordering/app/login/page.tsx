@@ -4,25 +4,45 @@ import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-{
-  /* <button
-  onClick={() => {
-    signIn();
-  }}
->
-  Sign In
-</button>; */
-}
-
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length >= 6; // Example: password must be at least 6 characters long
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    const toastId = toast.loading("Loading...");
     e.preventDefault();
     setError("");
+    setEmailError("");
+    setPasswordError("");
+
+    let isValid = true;
+
+    // Email validation
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address");
+      isValid = false;
+    }
+
+    // Password validation
+    if (!validatePassword(password)) {
+      setPasswordError("Password must be at least 6 characters long");
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    const toastId = toast.loading("Loading...");
 
     const result = await signIn("credentials", {
       redirect: false,

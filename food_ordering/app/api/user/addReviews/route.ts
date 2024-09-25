@@ -12,18 +12,20 @@ export async function POST(req:NextRequest){
     }
     const session=await getServerSession(NEXTAUTH_CONFIG);
     let email=session.user.email;
+    let firstName = session.user.firstName;
+    let lastName = session.user.lastName;
     try{
         let added_review=await prisma.reviews.create({
             data:{
                 rating:body.rating,
                 description:body.description,
-                itemId:body.itemId,
-                email:email
+                email:email,
+                firstName : firstName,
+                lastName : lastName
             }
         })
         return NextResponse.json({"message":"Review added Successfully"});
     }catch(err){
-        console.log(err);
         return NextResponse.json({"message":"Internal Server Error"},{status:500});
     }
 }

@@ -8,7 +8,7 @@ export default withAuth(
     if (!token) {
       return NextResponse.redirect(new URL('/login', req.url));
     }
-    else if (token.role === "Admin" && (req.nextUrl.pathname.startsWith('/api/admin') || req.nextUrl.pathname.startsWith('/admin'))) {
+    else if (token.role === "Admin") {
       return NextResponse.next();
   
     }

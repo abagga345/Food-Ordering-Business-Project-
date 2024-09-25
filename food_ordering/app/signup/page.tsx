@@ -3,16 +3,6 @@ import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 
-{
-  /* <button
-  onClick={() => {
-    signIn();
-  }}
->
-  Sign In
-</button>; */
-}
-
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
