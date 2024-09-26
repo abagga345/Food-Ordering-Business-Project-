@@ -41,7 +41,7 @@ const SidePanel = () => {
   };
 
   return (
-    <div className="w-64 bg-gray-800 text-white h-full p-4 flex flex-col justify-between">
+    <div className="w-64 bg-green-200 text-black h-full px-6 py-8 flex flex-col justify-between">
       <div>
         <h2 className="text-2xl font-semibold mb-4">Dashboard</h2>
         <nav>
@@ -51,8 +51,8 @@ const SidePanel = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-row gap-2 items-center px-4 py-2 mb-2 rounded hover:bg-gray-700 ${
-                  pathname === item.href ? "bg-gray-700" : ""
+                className={`flex flex-row gap-2 items-center px-4 py-2 mb-2 rounded hover:bg-green-300 ${
+                  pathname === item.href ? "bg-green-300" : ""
                 }`}
               >
                 <Icon className="mr-2" />
@@ -62,7 +62,7 @@ const SidePanel = () => {
           })}
         </nav>
       </div>
-      <div className="flex flex-row gap-2 items-center text-white px-4 py-2 mb-2 hover:bg-gray-700 rounded">
+      <div className="flex flex-row gap-2 items-center px-4 py-2 mb-2 hover:bg-green-300 rounded">
         <CiLogout />
         <button onClick={handleLogout}>Log Out </button>
       </div>
