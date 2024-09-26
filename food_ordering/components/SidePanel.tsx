@@ -11,8 +11,10 @@ import { MdRateReview } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
 import toast from "react-hot-toast";
 import { signOut } from "next-auth/react";
+import { IoHome } from "react-icons/io5";
 
 const navItems = [
+  { href: "/", label: "Home", icon: IoHome },
   { href: "/dashboard/allorders", label: "All Orders", icon: MdBorderColor },
   {
     href: "/dashboard/pendingorders",
@@ -43,6 +45,9 @@ const SidePanel = () => {
   return (
     <div className="w-64 bg-green-200 text-black h-full px-6 py-8 flex flex-col justify-between">
       <div>
+        {/* <div className="flex flex-row justify-center items-center w-full">
+          <Image src={logo} className="h-24 w-24" alt="hello" />
+        </div> */}
         <h2 className="text-2xl font-semibold mb-4">Dashboard</h2>
         <nav>
           {navItems.map((item) => {
