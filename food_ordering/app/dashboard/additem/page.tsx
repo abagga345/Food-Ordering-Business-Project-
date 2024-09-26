@@ -11,6 +11,7 @@ const AddItem = () => {
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -24,43 +25,69 @@ const AddItem = () => {
       fileInputRef.current.value = "";
     }
   };
+  const uploadImage = async (image: File) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
 
+      const response = await fetch("/api/imageUpload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await response.json();
+      const url = data.url;
+      console.log(url);
+      setImageUrl(url);
+      return url;
+    } catch (error) {
+      console.error("Error uplaoding image", error);
+      toast.error(
+        error instanceof Error ? error.message : "An unknown error occurred"
+      );
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
+    const toastId = toast.loading("Adding Item...");
     try {
-      //   if (!imageUrl) {
-      //     throw new Error("Please enter an image URL");
-      //   }
+      if (!image) {
+        throw new Error("Please enter an image URL");
+      }
+      const imageUrl = await uploadImage(image);
 
-      //   const response = await fetch("/api/admin/addItem", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       title,
-      //       description,
-      //       amount: parseFloat(amount),
-      //     //   imageUrl,
-      //     }),
-      //   });
+      const response = await fetch("/api/admin/addItem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          amount: parseFloat(amount),
+          imageUrl,
+        }),
+      });
 
-      //   if (!response.ok) {
-      //     throw new Error("Failed to add menu item");
-      //   }
+      if (!response.ok) {
+        throw new Error("Failed to add menu item");
+      }
       console.log({ title, description, amount });
-
-      // Reset form after successful submission
       setTitle("");
       setDescription("");
       setAmount("");
-      //   setImageUrl("");
-
+      setImageUrl("");
+      handleRemoveImage();
+      toast.dismiss(toastId);
       toast.success("Menu item added successfully!");
     } catch (error) {
       console.error("Error adding menu item:", error);
+      toast.dismiss(toastId);
       toast.error(
         error instanceof Error ? error.message : "An unknown error occurred"
       );
@@ -71,14 +98,13 @@ const AddItem = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Add Menu Item</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+        Add Menu Item
+      </h2>
       <hr className="mb-6" />
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="title"
-            className="block text-gray-700"
-          >
+          <label htmlFor="title" className="block text-gray-700">
             Title
           </label>
           <input
@@ -91,10 +117,7 @@ const AddItem = () => {
           />
         </div>
         <div>
-          <label
-            htmlFor="description"
-            className="block text-gray-700"
-          >
+          <label htmlFor="description" className="block text-gray-700">
             Description
           </label>
           <textarea
@@ -107,10 +130,7 @@ const AddItem = () => {
           ></textarea>
         </div>
         <div>
-          <label
-            htmlFor="amount"
-            className="block text-gray-700"
-          >
+          <label htmlFor="amount" className="block text-gray-700">
             Amount
           </label>
           <input
@@ -124,10 +144,7 @@ const AddItem = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="image"
-            className="block text-gray-700"
-          >
+          <label htmlFor="image" className="block text-gray-700">
             Image
           </label>
           <div className="mt-1 flex items-center">
@@ -163,8 +180,8 @@ const AddItem = () => {
                 <Image
                   src={URL.createObjectURL(image)}
                   alt="Preview"
-                  width={100} // Specify the width for optimization
-                  height={150} // Specify the height for optimization
+                  width={100}
+                  height={150}
                   className="mt-2 rounded-md"
                 />
               </div>
