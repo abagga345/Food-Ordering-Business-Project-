@@ -12,10 +12,10 @@ import {
 import { toast } from "react-hot-toast";
 
 interface Review {
-  title: string;
   content: string;
   rating: number;
-  userId?: string; // Include user ID in the review structure
+  userId?: string;
+  description: string; // Include user ID in the review structure
 }
 
 const StarRating = ({
@@ -46,9 +46,9 @@ const StarRating = ({
 
 const Reviews = () => {
   const [review, setReview] = useState<Review>({
-    title: "",
     content: "",
     rating: 0,
+    description: "",
   });
 
   const handleInputChange = (
@@ -64,6 +64,27 @@ const Reviews = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      review["description"] = review.content;
+      const response = await fetch("/api/user/addReviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(review),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success(result.message);
+        setReview({ content: "", rating: 0, description: "" }); // Reset the form
+      } else {
+        toast.error(result.message || "Failed to submit review");
+      }
+    } catch (err) {
+      toast.error("An error occurred. Please try again.");
+    }
   };
 
   return (
