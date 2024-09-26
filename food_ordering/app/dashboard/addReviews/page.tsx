@@ -103,7 +103,7 @@ const Reviews = () => {
                 value={review.content}
                 onChange={handleInputChange}
                 placeholder="Write your review here"
-                className="p-2 block w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="p-2 block w-full rounded-md border shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 required
               />
             </div>

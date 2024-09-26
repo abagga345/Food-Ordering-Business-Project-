@@ -52,6 +52,7 @@ model Orders{
   email String
   payment_id String?
   status orderstatus
+  amount Int 
   houseStreet String
   landmark String
   timestamp DateTime @default(now())
