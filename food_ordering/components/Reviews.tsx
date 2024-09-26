@@ -98,7 +98,7 @@ export default function Testimonials() {
                     <div className="flex flex-col items-center gap-2">
                       <img
                         className="rounded-full"
-                        src={` https://api.dicebear.com/7.x/initials/svg?seed=${review?.firstName}`}
+                        src={` https://api.dicebear.com/7.x/initials/svg?seed=${review?.firstName} ${review?.lastName}`}
                       />
                       <h2
                         className="text-[15px] font-medium text-richblack-500"
