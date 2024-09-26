@@ -9,7 +9,7 @@ interface MenuItem {
   title: string;
   description: string;
   amount: number;
-  image: string;
+  imageUrl: string;
   visibility: boolean;
 }
 
@@ -107,14 +107,20 @@ const MenuItems: React.FC = () => {
               item.visibility == false ? "opacity-50" : ""
             }`}
           >
-            {/* Uncomment the Image component when you have the correct image paths */}
-            {/* <Image
-              src={item.image}
-              alt={item.title}
-              width={400}
-              height={200}
-              className="w-full h-48 object-cover"
-            /> */}
+            {item.imageUrl != "www.whiterosepearora.com" &&
+            item.imageUrl != "www.aroranerd.com" &&
+            item.imageUrl != "www.triptiarora.com" ? (
+              <Image
+                src={item.imageUrl}
+                alt={item.title}
+                width={400}
+                height={200}
+                className="w-full h-48 object-cover"
+              />
+            ) : (
+              ""
+            )}
+
             <div className="p-4">
               <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
               <p className="text-gray-600 mb-4">{item.description}</p>
