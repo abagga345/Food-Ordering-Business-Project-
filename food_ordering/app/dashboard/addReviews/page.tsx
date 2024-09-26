@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { PlusCircle } from "lucide-react";
 import {
   Button,
   Input,
@@ -67,32 +68,36 @@ const Reviews = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-white w-[45%] mx-auto rounded-xl mt-24">
+    <div className="flex justify-center items-center bg-white w-[30%] mx-auto rounded-lg mt-10 p-6 shadow-lg">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <h1 className="text-2xl font-bold">Add a Review</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mx-auto">Add a Review</h1>
         </CardHeader>
+        <hr className="my-2" />
         <CardBody>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <label>Review</label>
+          <form onSubmit={handleSubmit}>
+            <label className="block text-gray-700">Review</label>
             <Textarea
               name="content"
               value={review.content}
               onChange={handleInputChange}
               placeholder="Write your review here"
-              className="bg-gray-100"
+              rows={3}
+              className="mt-2 mb-10 block rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
             <div>
-              <label className="block text-md font-medium text-gray-700 mb-1">
+              <label className="block text-gray-700">
                 Rating
               </label>
               <StarRating rating={review.rating} onRate={handleRatingChange} />
+              <div className="mb-6"></div>
             </div>
             <Button
               type="submit"
-              className="bg-green-400 rounded-lg p-2 hover:bg-green-600 font-semibold text-white"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
+              <PlusCircle className="mr-2 h-5 w-5" />
               Submit Review
             </Button>
           </form>
