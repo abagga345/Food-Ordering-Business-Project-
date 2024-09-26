@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { MdDashboard } from "react-icons/md";
 import { MdBorderColor } from "react-icons/md";
 import { MdPendingActions } from "react-icons/md";
 import { MdAnalytics } from "react-icons/md";
@@ -48,10 +49,7 @@ const SidePanel = () => {
   return (
     <div className="w-64 bg-green-200 text-black h-full px-6 py-8 flex flex-col justify-between">
       <div>
-        {/* <div className="flex flex-row justify-center items-center w-full">
-          <Image src={logo} className="h-24 w-24" alt="hello" />
-        </div> */}
-        <h2 className="text-2xl font-semibold mb-4">Dashboard</h2>
+        <h2 className="text-2xl font-semibold mb-4"><MdDashboard className="inline" /> Dashboard</h2>
         <nav>
           {navItems.map((item) => {
             const Icon = item.icon;
