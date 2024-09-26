@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MdBorderColor } from "react-icons/md";
@@ -8,10 +8,12 @@ import { MdAnalytics } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import { MdOutlineMenuBook } from "react-icons/md";
 import { MdRateReview } from "react-icons/md";
-import { CiLogout } from "react-icons/ci";
+
 import toast from "react-hot-toast";
 import { signOut } from "next-auth/react";
 import { IoHome } from "react-icons/io5";
+import { VscSignOut } from "react-icons/vsc";
+import ConfirmationModal from "./Components";
 
 const navItems = [
   { href: "/", label: "Home", icon: IoHome },
@@ -28,6 +30,7 @@ const navItems = [
 ];
 
 const SidePanel = () => {
+  const [confirmationModal, setConfirmationModal] = useState(null);
   const pathname = usePathname();
   const handleLogout = async () => {
     const toastId = toast.loading("Loading...");
@@ -68,9 +71,26 @@ const SidePanel = () => {
         </nav>
       </div>
       <div className="flex flex-row gap-2 items-center px-4 py-2 mb-2 hover:bg-green-300 rounded">
-        <CiLogout />
-        <button onClick={handleLogout}>Log Out </button>
+        <button
+          onClick={() =>
+            setConfirmationModal({
+              text1: "Are you sure?",
+              text2: "You will be logged out of your account.",
+              btn1Text: "Logout",
+              btn2Text: "Cancel",
+              btn1Handler: handleLogout,
+              btn2Handler: () => setConfirmationModal(null),
+            })
+          }
+        >
+          <div className="flex items-center gap-x-2">
+            <VscSignOut className="text-lg" />
+            <span>Logout</span>
+          </div>
+        </button>
+        {/* <button onClick={handleLogout}>Log Out </button> */}
       </div>
+      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </div>
   );
 };
