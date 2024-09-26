@@ -1,18 +1,40 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
+import {
+  Loader2,
+  Package,
+  Mail,
+  CreditCard,
+  AlertCircle,
+  Home,
+  MapPin,
+  Clock,
+} from "lucide-react";
+
+interface OrderItem {
+  id: number;
+  description: string;
+  email: string;
+  payment_id: string;
+  status: string;
+  houseStreet: string;
+  landmark: string;
+  timestamp: string;
+  city: string;
+  pincode: string;
+}
 
 const AllOrders = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
       const toastId = toast.loading("Loading orders...");
       try {
         const response = await fetch("/api/admin/allOrders");
-        toast.dismiss(toastId);
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
@@ -24,32 +46,108 @@ const AllOrders = () => {
         toast.error(`Error: ${error.message}`, { id: toastId });
       } finally {
         setLoading(false);
+        toast.dismiss(toastId);
       }
     };
-
     fetchOrders();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div
+          className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
+          role="alert"
+        >
+          <p className="font-bold">Error</p>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold mb-4">All Orders</h1>
-      <ul className="space-y-4">
-        {/* {orders.map((order) => (
-          <li
+    <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
+      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+        All Orders
+      </h1>
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {orders.map((order) => (
+          <div
             key={order.id}
-            className="p-4 bg-white shadow rounded border border-gray-200"
+            className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
           >
-            <h2 className="text-xl font-bold">Order #{order.id}</h2>
-            <p className="text-gray-600">Customer: {order.customerName}</p>
-            <p className="text-gray-600">Total: ${order.totalAmount}</p>
-          </li>
-        ))} */}
-      </ul>
+            <div className="bg-blue-500 text-white px-4 py-2">
+              <h2 className="text-xl font-semibold">Order #{order.id}</h2>
+            </div>
+            <div className="p-4 space-y-3">
+              <OrderDetail
+                icon={Package}
+                label="Description"
+                value={order.description}
+              />
+              <OrderDetail icon={Mail} label="Email" value={order.email} />
+              <OrderDetail
+                icon={CreditCard}
+                label="Payment ID"
+                value={order.payment_id}
+              />
+              <OrderDetail
+                icon={AlertCircle}
+                label="Status"
+                value={order.status}
+              />
+              <OrderDetail
+                icon={Home}
+                label="House/Street"
+                value={order.houseStreet}
+              />
+              <OrderDetail
+                icon={MapPin}
+                label="Landmark"
+                value={order.landmark}
+              />
+              <OrderDetail icon={MapPin} label="City" value={order.city} />
+              <OrderDetail
+                icon={MapPin}
+                label="Pincode"
+                value={order.pincode}
+              />
+              <OrderDetail
+                icon={Clock}
+                label="Timestamp"
+                value={new Date(order.timestamp).toLocaleString()}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
+
+const OrderDetail = ({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: any;
+  label: string;
+  value: string;
+}) => (
+  <div className="flex items-center text-gray-700">
+    <Icon className="w-5 h-5 mr-2 text-blue-500" />
+    <span className="font-medium">{label}:</span>
+    <span className="ml-2">{value}</span>
+  </div>
+);
 
 export default AllOrders;
