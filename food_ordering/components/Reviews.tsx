@@ -10,7 +10,6 @@ import "./reviews.css";
 
 // Import required modules
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
-import { Image } from "@nextui-org/react";
 
 // Define the type for a review object
 interface Review {
@@ -94,23 +93,25 @@ export default function Testimonials() {
             >
               {reviews.map((review, i) => (
                 <SwiperSlide key={i}>
-                  <div className="flex flex-col gap-3 bg-blue-500 p-3 text-[17px] text-richblack-25 rounded-lg items-center bg-gradient-to-br">
-                    <div className="flex flex-col items-center gap-2">
-                      <img
-                        className="rounded-full"
-                        src={` https://api.dicebear.com/7.x/initials/svg?seed=${review?.firstName} ${review?.lastName}`}
-                      />
-                      <h2
-                        className="text-[15px] font-medium text-richblack-500"
-                        style={{ textTransform: "none" }}
-                      >
-                        by:{" "}
-                        {review?.firstName + " " + review?.lastName ||
-                          "Anonymous"}
-                      </h2>
+                  <div className="p-5 bg-gray-50 text-black rounded-lg shadow-lg mx-4 my-10">
+                    <div className="flex justify-between gap-2 mb-4">
+                      <div className="flex items-center gap-4">
+                        <img
+                          alt=""
+                          className="rounded-full w-10"
+                          src={` https://api.dicebear.com/7.x/initials/svg?seed=${review?.firstName} ${review?.lastName}`}
+                        />
+                        <h2
+                          className="text-md font-semibold text-richblack-500"
+                          style={{ textTransform: "none" }}
+                        >
+                          {review?.firstName + " " + review?.lastName ||
+                            "Anonymous"}
+                        </h2>
+                      </div>
                       <StarRating rating={review.rating} />
                     </div>
-                    <p className="font-medium text-richblack-25">
+                    <p className="text-lg">
                       {review.description}
                     </p>
                   </div>
