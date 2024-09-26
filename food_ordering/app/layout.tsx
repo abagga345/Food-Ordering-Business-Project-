@@ -121,7 +121,7 @@ export default function RootLayout({
             {/* logo */}
             <div className=" w-[33.3%]">
               <div className="flex flex-row gap-1 justify-end items-center">
-                <Link href="/account" className="px-2 py-3.5">
+                <Link href="/dashboard" className="px-2 py-3.5">
                   <span className="sf__tooltip-item block sf__tooltip-bottom sf__tooltip-style-2">
                     <svg
                       className="w-[20px] h-[20px]"
