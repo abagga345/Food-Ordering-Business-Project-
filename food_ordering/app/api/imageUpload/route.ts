@@ -1,18 +1,15 @@
 const cloudinary = require("cloudinary").v2;
-require("./config/cloudinary").connect();
+require("./cloudinary").connect();
 
-exports.uploadImageToCloudinary = async (file, { folder, height, quality }) => {
-  const options = {
-    folder,
-    resource_type: "auto",
-    ...(height && { height }),
-    ...(quality && { quality }),
-  };
-
-  try {
-    return await cloudinary.uploader.upload(file.tempFilePath, options);
-  } catch (error) {
-    console.error("Error uploading image:", error);
-    throw new Error("Image upload failed");
+exports.uploadImageToCloudinary = async (file, folder, height, quality) => {
+  const options = { folder };
+  if (height) {
+    options.height = height;
   }
+  if (quality) {
+    options.quality = quality;
+  }
+  options.resource_type = "auto";
+
+  return await cloudinary.uploader.upload(file.tempFilePath, options);
 };
