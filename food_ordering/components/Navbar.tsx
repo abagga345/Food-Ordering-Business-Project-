@@ -82,10 +82,6 @@ export default function Navbar() {
               </svg>
             </a>
           </div>
-          <div className="text-md font-bold me-36 ">
-            No Leakage Shipping. Delivering across 🇮🇳
-          </div>
-          <div></div>
         </div>
         <div className="flex flex-row items-center py-4 px-8 w-[100%] mx-auto">
           <div className="flex flex-row gap-8 text-md w-[33.3%] ">

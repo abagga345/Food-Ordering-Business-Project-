@@ -103,13 +103,12 @@ const MenuItems: React.FC = () => {
         {menuItems.map((item, index) => (
           <div
             key={index}
-            className={`bg-white rounded-lg shadow-md overflow-hidden ${
-              item.visibility == false ? "opacity-50" : ""
-            }`}
+            className={`bg-white rounded-lg shadow-md overflow-hidden ${item.visibility == false ? "opacity-50" : ""
+              }`}
           >
             {item.imageUrl != "www.whiterosepearora.com" &&
-            item.imageUrl != "www.aroranerd.com" &&
-            item.imageUrl != "www.triptiarora.com" ? (
+              item.imageUrl != "www.aroranerd.com" &&
+              item.imageUrl != "www.triptiarora.com" ? (
               <Image
                 src={item.imageUrl}
                 alt={item.title}
@@ -121,28 +120,27 @@ const MenuItems: React.FC = () => {
               ""
             )}
 
-            <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
-              <p className="text-gray-600 mb-4">{item.description}</p>
+            <div className="p-5">
               <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
                 <span className="text-lg font-bold">
-                  ${item.amount.toFixed(2)}
+                  ₹{item.amount.toFixed(2)}
                 </span>
-                <button
-                  onClick={() => toggleOutOfStock(index)}
-                  className={`font-bold py-2 px-4 rounded ${
-                    item.visibility == false
-                      ? "bg-green-500 hover:bg-green-700 text-white"
-                      : "bg-red-500 hover:bg-red-700 text-white"
-                  }`}
-                >
-                  {item.visibility == false
-                    ? "Mark In Stock"
-                    : "Mark Out of Stock"}
-                </button>
               </div>
+              <p className="text-gray-600 mb-4">{item.description}</p>
+              <button
+                onClick={() => toggleOutOfStock(index)}
+                className={`font-bold py-2 px-4 w-full rounded ${item.visibility == false
+                    ? "bg-green-500 hover:bg-green-600 text-white"
+                    : "bg-red-500 hover:bg-red-600 text-white"
+                  }`}
+              >
+                {item.visibility == false
+                  ? "Mark In Stock"
+                  : "Mark Out of Stock"}
+              </button>
               {item.visibility == false && (
-                <p className="text-red-500 mt-2 font-bold">Out of Stock</p>
+                <p className="text-red-500 font-bold">Out of Stock</p>
               )}
             </div>
           </div>

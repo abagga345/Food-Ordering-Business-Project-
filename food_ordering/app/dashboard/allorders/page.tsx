@@ -55,7 +55,7 @@ const AllOrders = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
+        <Loader2 className="w-10 h-10 animate-spin text-green-600" />
       </div>
     );
   }
@@ -75,18 +75,18 @@ const AllOrders = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+    <div className="container mx-auto p-4 min-h-screen">
+      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
         All Orders
       </h1>
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
         {orders.map((order) => (
           <div
             key={order.id}
             className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
           >
-            <div className="bg-blue-500 text-white px-4 py-2">
-              <h2 className="text-xl font-semibold">Order #{order.id}</h2>
+            <div className="bg-green-600 text-white px-4 py-2">
+              <h2 className="text-xl font-semibold text-center">Order #{order.id}</h2>
             </div>
             <div className="p-4 space-y-3">
               <OrderDetail
@@ -144,7 +144,7 @@ const OrderDetail = ({
   value: string;
 }) => (
   <div className="flex items-center text-gray-700">
-    <Icon className="w-5 h-5 mr-2 text-blue-500" />
+    <Icon className="w-5 h-5 mr-2 text-green-600" />
     <span className="font-medium">{label}:</span>
     <span className="ml-2">{value}</span>
   </div>
