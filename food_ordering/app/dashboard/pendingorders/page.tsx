@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Clock, MapPin, Package, User } from "lucide-react";
+import { Clock, MapPin, Package, User, Info } from "lucide-react";
 
 interface OrderItem {
   item: {
@@ -31,8 +31,8 @@ const PendingOrders = () => {
   const statusOptions = [
     "Unconfirmed",
     "Rejected",
-    "Dispatched",
     "Processing",
+    "Dispatched",
     "Delivered",
   ];
 
@@ -78,8 +78,8 @@ const PendingOrders = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Pending Orders</h1>
-      <div className="space-y-6">
+      <h1 className="text-3xl font-bold mb-10 text-gray-800 text-center">Pending Orders</h1>
+      <div className="md:grid md:grid-cols-2 gap-8">
         {orders.map((order) => (
           <div
             key={order.id}
@@ -114,20 +114,21 @@ const PendingOrders = () => {
                   ))}
                 </select>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 mb-4">
-                <div className="flex items-center">
-                  <User className="w-5 h-5 mr-2 text-gray-500" />
+              <hr className="my-4" />
+              <div className="mb-4">
+                <div className="flex items-center mb-1">
+                  <User className="w-5 h-5 mr-2 text-green-600" />
                   <span className="text-gray-600">{order.email}</span>
                 </div>
-                <div className="flex items-center">
-                  <Clock className="w-5 h-5 mr-2 text-gray-500" />
+                <div className="flex items-center mb-1">
+                  <Clock className="w-5 h-5 mr-2 text-green-600" />
                   <span className="text-gray-600">
                     {new Date(order.timestamp).toLocaleString()}
                   </span>
                 </div>
                 <div className="flex items-center">
-                  <MapPin className="w-5 h-5 mr-2 text-gray-500" />
-                  <span className="text-gray-600">{`${order.houseStreet}, ${order.landmark}, ${order.city}, ${order.pincode}`}</span>
+                  <MapPin className="w-5 h-5 mr-2 text-green-600" />
+                  <span className="text-gray-600 w-full">{`${order.houseStreet}, ${order.landmark}, ${order.city}, ${order.pincode}`}</span>
                 </div>
               </div>
               <div className="border-t border-gray-200 pt-4">
@@ -141,8 +142,8 @@ const PendingOrders = () => {
                       className="flex justify-between items-center"
                     >
                       <div className="flex items-center">
-                        <Package className="w-5 h-5 mr-2 text-gray-500" />
-                        <span className="text-gray-800">{item.item.title}</span>
+                        <Package className="w-5 h-5 mr-2 text-green-600" />
+                        <span className="text-gray-700">{item.item.title}</span>
                       </div>
                       <div className="text-right">
                         <span className="text-gray-600">
@@ -157,11 +158,11 @@ const PendingOrders = () => {
                 </ul>
               </div>
               {order.description && (
-                <div className="mt-4 bg-gray-50 p-3 rounded">
-                  <p className="text-gray-700">
-                    <span className="font-medium">Note:</span>{" "}
-                    {order.description}
-                  </p>
+                <div className="mt-4 p-3 rounded bg-green-100">
+                    <span className="text-gray-700 font-medium flex items-center">
+                      <Info className="w-5 h-5 mr-2 text-gray-500" />
+                      Note: {order.description}
+                    </span>
                 </div>
               )}
             </div>

@@ -33,9 +33,8 @@ const StarRating = ({
           key={star}
           isIconOnly
           variant="light"
-          className={`text-2xl ${
-            star <= rating ? "text-yellow-400" : "text-gray-300"
-          }`}
+          className={`text-2xl ${star <= rating ? "text-yellow-400" : "text-gray-300"
+            }`}
           onClick={() => onRate(star)}
         >
           ★
@@ -97,26 +96,26 @@ const Reviews = () => {
         <hr className="my-2" />
         <CardBody>
           <form onSubmit={handleSubmit}>
-            <label className="block text-gray-700">Review</label>
-            <Textarea
-              name="content"
-              value={review.content}
-              onChange={handleInputChange}
-              placeholder="Write your review here"
-              rows={3}
-              className="mt-2 mb-10 block rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              required
-            />
             <div>
-              <label className="block text-gray-700">
-                Rating
+              <label className="block text-gray-700 mb-4">Review</label>
+              <textarea
+                name="content"
+                value={review.content}
+                onChange={handleInputChange}
+                placeholder="Write your review here"
+                className="p-2 block w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                required
+              />
+            </div>
+            <div className="mt-6">
+              <label className="block text-gray-700 mb-2">
+                Your Rating
               </label>
               <StarRating rating={review.rating} onRate={handleRatingChange} />
-              <div className="mb-6"></div>
             </div>
             <Button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center mt-5 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <PlusCircle className="mr-2 h-5 w-5" />
               Submit Review
