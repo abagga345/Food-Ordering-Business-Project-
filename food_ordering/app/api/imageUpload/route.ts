@@ -2,29 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 const cloudinary = require("cloudinary").v2;
 require("./cloudinary").connect();
 
-const uploadImageToCloudinary = async (
+const uploadImageToCloudinary = (
   fileBuffer: Buffer,
-  folder,
-  height,
-  quality
-) => {
-  const options = { folder };
-  if (height) {
-    options.height = height;
-  }
-  if (quality) {
-    options.quality = quality;
-  }
-  options.resource_type = "auto";
+  folder: string,
+  height?: number,
+  quality?: number
+): Promise<any> => {
+  const options: any = { folder, resource_type: "auto" };
+  if (height) options.height = height;
+  if (quality) options.quality = quality;
 
-  return await cloudinary.uploader
-    .upload_stream(options, (error, result) => {
-      if (error) {
-        throw new Error(error);
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      options,
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result); // This will return the result of the upload
       }
-      return result;
-    })
-    .end(fileBuffer); // Send the file buffer here
+    );
+    uploadStream.end(fileBuffer); // Send the file buffer here
+  });
 };
 
 export async function POST(req: NextRequest) {
@@ -48,7 +47,9 @@ export async function POST(req: NextRequest) {
       height,
       quality
     );
-    return NextResponse.json(uploadResult, { status: 200 });
+
+    // Return the link to the uploaded image
+    return NextResponse.json({ url: uploadResult.secure_url }, { status: 200 });
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
