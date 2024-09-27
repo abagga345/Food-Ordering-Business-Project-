@@ -21,7 +21,7 @@ export const review=z.object({
 
 export const addItem=z.object({
     imageUrl:z.string(),
-    amount:z.number().int(),
+    amount:z.number().int().min(0),
     description:z.string().max(50),
     title:z.string().max(40)
 }).required()
