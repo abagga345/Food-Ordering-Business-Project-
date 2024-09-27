@@ -6,14 +6,6 @@ export async function GET(req:NextRequest){
         let result=await prisma.orders.findMany({
             orderBy:{
                 timestamp:"desc"
-            },
-            include:{
-                items:{
-                    select:{
-                        quantity:true,
-                        item:true
-                    }
-                }
             }
         });
         return NextResponse.json({"message":"Orders fetched successfully",orders:result});
