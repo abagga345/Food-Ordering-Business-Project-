@@ -10,6 +10,7 @@ import {
   Home,
   MapPin,
   Clock,
+  X,
 } from "lucide-react";
 
 interface OrderItem {
@@ -29,6 +30,7 @@ const AllOrders = () => {
   const [orders, setOrders] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<OrderItem | null>(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -79,56 +81,89 @@ const AllOrders = () => {
       <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
         All Orders
       </h1>
-      <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-        {orders.map((order) => (
-          <div
-            key={order.id}
-            className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
-          >
-            <div className="bg-green-600 text-white px-4 py-2">
-              <h2 className="text-xl font-semibold text-center">Order #{order.id}</h2>
-            </div>
-            <div className="p-4 space-y-3">
-              <OrderDetail
-                icon={Package}
-                label="Description"
-                value={order.description}
-              />
-              <OrderDetail icon={Mail} label="Email" value={order.email} />
-              <OrderDetail
-                icon={CreditCard}
-                label="Payment ID"
-                value={order.payment_id}
-              />
-              <OrderDetail
-                icon={AlertCircle}
-                label="Status"
-                value={order.status}
-              />
-              <OrderDetail
-                icon={Home}
-                label="House/Street"
-                value={order.houseStreet}
-              />
-              <OrderDetail
-                icon={MapPin}
-                label="Landmark"
-                value={order.landmark}
-              />
-              <OrderDetail icon={MapPin} label="City" value={order.city} />
-              <OrderDetail
-                icon={MapPin}
-                label="Pincode"
-                value={order.pincode}
-              />
-              <OrderDetail
-                icon={Clock}
-                label="Timestamp"
-                value={new Date(order.timestamp).toLocaleString()}
-              />
-            </div>
-          </div>
-        ))}
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr className="bg-green-600 text-white">
+              <th className="px-4 py-2">Order ID</th>
+              <th className="px-4 py-2">Description</th>
+              <th className="px-4 py-2">Email</th>
+              <th className="px-4 py-2">Status</th>
+              <th className="px-4 py-2">Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr
+                key={order.id}
+                className="border-b hover:bg-gray-100 cursor-pointer"
+                onClick={() => setSelectedOrder(order)}
+              >
+                <td className="px-4 py-2 text-center">{order.id}</td>
+                <td className="px-4 py-2">{order.description}</td>
+                <td className="px-4 py-2">{order.email}</td>
+                <td className="px-4 py-2">{order.status}</td>
+                <td className="px-4 py-2">
+                  {new Date(order.timestamp).toLocaleString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {selectedOrder && (
+        <OrderModal
+          order={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+        />
+      )}
+    </div>
+  );
+};
+
+const OrderModal = ({
+  order,
+  onClose,
+}: {
+  order: OrderItem;
+  onClose: () => void;
+}) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div className="flex justify-between items-center bg-green-600 text-white px-6 py-3 rounded-t-lg">
+          <h2 className="text-xl font-semibold">Order #{order.id}</h2>
+          <button onClick={onClose} className="text-white hover:text-gray-200">
+            <X size={24} />
+          </button>
+        </div>
+        <div className="p-6 space-y-4">
+          <OrderDetail
+            icon={Package}
+            label="Description"
+            value={order.description}
+          />
+          <OrderDetail icon={Mail} label="Email" value={order.email} />
+          <OrderDetail
+            icon={CreditCard}
+            label="Payment ID"
+            value={order.payment_id}
+          />
+          <OrderDetail icon={AlertCircle} label="Status" value={order.status} />
+          <OrderDetail
+            icon={Home}
+            label="House/Street"
+            value={order.houseStreet}
+          />
+          <OrderDetail icon={MapPin} label="Landmark" value={order.landmark} />
+          <OrderDetail icon={MapPin} label="City" value={order.city} />
+          <OrderDetail icon={MapPin} label="Pincode" value={order.pincode} />
+          <OrderDetail
+            icon={Clock}
+            label="Timestamp"
+            value={new Date(order.timestamp).toLocaleString()}
+          />
+        </div>
       </div>
     </div>
   );
@@ -144,9 +179,9 @@ const OrderDetail = ({
   value: string;
 }) => (
   <div className="flex items-center text-gray-700">
-    <Icon className="w-5 h-5 mr-2 text-green-600" />
+    <Icon className="w-5 h-5 mr-2 text-green-600 flex-shrink-0" />
     <span className="font-medium">{label}:</span>
-    <span className="ml-2">{value}</span>
+    <span className="ml-2 break-all">{value}</span>
   </div>
 );
 

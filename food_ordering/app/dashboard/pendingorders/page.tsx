@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Clock, MapPin, Package, User, Info } from "lucide-react";
+import { Clock, MapPin, Package, User, Info, Loader2 } from "lucide-react";
 
 interface OrderItem {
   item: {
@@ -36,12 +36,36 @@ const PendingOrders = () => {
     "Delivered",
   ];
 
-  const handleStatusChange = (orderId: string, newStatus: string) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === orderId ? { ...order, status: newStatus } : order
-      )
-    );
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
+    const toastId = toast.loading("Changing Status...");
+    try {
+      const response = await fetch("/api/admin/changeStatus", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+          status: newStatus,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch orders");
+      }
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+      toast.dismiss(toastId);
+      toast.success("Orders loaded successfully!", { id: toastId });
+    } catch (error: any) {
+      setError(error.message);
+      toast.dismiss(toastId);
+      toast.error(`Error: ${error.message}`, { id: toastId });
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -70,7 +94,7 @@ const PendingOrders = () => {
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
-        Loading...
+        <Loader2 className="w-10 h-10 animate-spin text-green-600" />
       </div>
     );
   if (error)
@@ -78,9 +102,11 @@ const PendingOrders = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-10 text-gray-800 text-center">Pending Orders</h1>
+      <h1 className="text-3xl font-bold mb-10 text-gray-800 text-center">
+        Pending Orders
+      </h1>
       <div className="md:grid md:grid-cols-2 gap-8">
-        {orders.map((order) => (
+        {orders.map((order, index) => (
           <div
             key={order.id}
             className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
@@ -159,10 +185,10 @@ const PendingOrders = () => {
               </div>
               {order.description && (
                 <div className="mt-4 p-3 rounded bg-green-100">
-                    <span className="text-gray-700 font-medium flex items-center">
-                      <Info className="w-5 h-5 mr-2 text-gray-500" />
-                      Note: {order.description}
-                    </span>
+                  <span className="text-gray-700 font-medium flex items-center">
+                    <Info className="w-5 h-5 mr-2 text-gray-500" />
+                    Note: {order.description}
+                  </span>
                 </div>
               )}
             </div>
