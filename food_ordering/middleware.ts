@@ -3,11 +3,18 @@ import { NextResponse } from "next/server";
 import { NextRequestWithAuth } from "next-auth/middleware";
 export default withAuth(function middleware(req: NextRequestWithAuth) {
   const token = req.nextauth?.token;
-
   if (!token) {
-    console.log("hello");
     return NextResponse.redirect(new URL("/login", req.url));
-  } else {
+  }
+  else if (req.nextUrl.pathname.startsWith("/api/admin")){
+    if (token.role==="Admin"){
+      return NextResponse.next();
+    }
+    else{
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
+  else{
     return NextResponse.next();
   }
 });

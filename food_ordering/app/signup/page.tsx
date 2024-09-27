@@ -56,7 +56,7 @@ export default function Home() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="border p-2 rounded w-full"
+            className="border p-3 mb-2 rounded w-full"
           />
 
           <input
@@ -65,7 +65,7 @@ export default function Home() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="border p-2 rounded"
+            className="border p-3 mb-2 rounded"
           />
           <input
             type="text"
@@ -73,7 +73,7 @@ export default function Home() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
-            className="border p-2 rounded"
+            className="border p-3 mb-2 rounded"
           />
           <input
             type="text"
@@ -81,7 +81,7 @@ export default function Home() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
-            className="border p-2 rounded"
+            className="border p-3 mb-2 rounded"
           />
           <input
             type="number"
@@ -89,22 +89,22 @@ export default function Home() {
             value={contactNumber}
             onChange={(e) => setContactNumber(e.target.value)}
             required
-            className="border p-2 rounded"
+            className="border p-3 mb-2 rounded"
           />
           {error && <div className="text-red-500">{error}</div>}
-          <p className="font-semibold text-[#666666]">
+          <p className="text-gray-800 mb-4">
             Sign up for early Sale access plus tailored new arrivals, trends and
             promotions. To opt out, click unsubscribe in our emails.
           </p>
           <button
             type="submit"
-            className="bg-green-600 text-white p-2 rounded font-semibold hover:scale-105 hover:bg-green-700"
+            className="bg-green-600 text-white p-3 rounded font-semibold hover:bg-green-700"
           >
             Sign Up
           </button>
           <Link
             href="/login"
-            className="text-black p-2 rounded font-semibold hover:scale-105 hover:bg-green-700 border-solid border-green-600 border-2 text-center hover:text-white"
+            className="text-black p-3 rounded font-semibold hover:bg-green-700 border-solid border-green-600 border-2 text-center hover:text-white"
           >
             Log In
           </Link>

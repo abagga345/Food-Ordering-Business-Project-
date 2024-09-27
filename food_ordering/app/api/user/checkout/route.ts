@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
             quantity: item.quantity,
           })),
         },
+        amount:body.amount
       },
       include: {
         items: true, // Include order items in the response if needed

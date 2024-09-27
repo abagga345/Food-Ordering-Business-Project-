@@ -72,7 +72,7 @@ export default function Home() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="border p-2 rounded w-full"
+              className="border p-3 rounded mb-2"
             />
 
             <input
@@ -81,26 +81,26 @@ export default function Home() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="border p-2 rounded"
+              className="border p-3 rounded mb-4"
             />
             {error && <div className="text-red-500">{error}</div>}
             <button
               type="submit"
-              className="bg-green-600 text-white p-2 rounded font-semibold hover:scale-105 hover:bg-green-700"
+              className="bg-green-600 text-white p-3 rounded font-semibold hover:bg-green-700"
             >
               Sign In
             </button>
           </form>
           <div className="border-solid border-l-2 w-1 h-24"></div>
           <div className="w-[40%]">
-            <p className="text-lg font-bold">New Customer</p>
-            <p className="my-4">
+            <p className="text-xl font-bold">New Customer</p>
+            <p className="mt-4 mb-8 text-lg">
               Sign up for early Sale access plus tailored new arrivals, trends
               and promotions. To opt out, click unsubscribe in our emails.
             </p>
             <Link
               href="/signup"
-              className="bg-green-600 text-white p-2 rounded font-semibold my-6 hover:scale-115 hover:bg-green-700"
+              className="bg-green-600 text-white px-6 py-3 rounded font-semibold my-6 hover:bg-green-700"
             >
               Register
             </Link>
