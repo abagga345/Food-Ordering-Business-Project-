@@ -16,7 +16,13 @@ const AddItem = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
+      const file = e.target.files[0];
+      if (file.type.startsWith("image/")) {
+        setImage(file);
+      } else {
+        toast.error("Please upload a valid image file.");
+        e.target.value = "";
+      }
     }
   };
 
