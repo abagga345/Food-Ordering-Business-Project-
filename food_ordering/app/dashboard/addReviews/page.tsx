@@ -65,6 +65,7 @@ const Reviews = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const toastId = toast.loading("Adding Review...");
     e.preventDefault();
     setbuttonstate(false);
     try {
@@ -78,11 +79,13 @@ const Reviews = () => {
       });
 
       const result = await response.json();
-
+      
       if (response.ok) {
+        toast.dismiss(toastId);
         toast.success(result.message);
         setReview({ content: "", rating: 0, description: "" }); // Reset the form
       } else {
+        toast.dismiss(toastId);
         toast.error(result.message || "Failed to submit review");
       }
     } catch (err) {
