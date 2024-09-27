@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
   try {
     const itemIds = body.items.map((item: { itemId: number }) => item.itemId);
     const OutofStockItems= [];
+    let deleted= false;
     const existingItems = await prisma.menu.findMany({
       where: {
         id: { in: itemIds }
@@ -35,12 +36,21 @@ export async function POST(req: NextRequest) {
     let calculatedAmount = 0;
     for (const item of body.items) {
       const menuItem = existingItems.find(menuItem => menuItem.id === item.itemId);
-      if (!menuItem || menuItem.visibility===false) {
+      if (!menuItem || menuItem.available===false) {
+          deleted=true;
+          break;
+      }
+      if (menuItem.visibility===false) {
           OutofStockItems.push(item.itemId);
           continue;
       }
+    
 
       calculatedAmount += menuItem.amount * item.quantity;
+    }
+
+    if (deleted===true) {
+      return NextResponse.json({message : "Some items have been deleted"},{status:400});
     }
     
     if (OutofStockItems.length>0) {

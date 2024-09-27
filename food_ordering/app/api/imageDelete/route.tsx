@@ -2,7 +2,7 @@ const cloudinary = require("cloudinary").v2;
 require("../imageUpload/cloudinary").connect();
 import { NextRequest, NextResponse } from "next/server";
 
-const deletePicture = async (imageURL) => {
+const deletePicture = async (imageURL:any) => {
   const publicIdImage = imageURL
     .split("/")
     .pop()

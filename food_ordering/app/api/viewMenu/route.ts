@@ -4,7 +4,8 @@ export async function GET(req:NextRequest){
     try{
         let availableItems=await prisma.menu.findMany({
             where:{
-                visibility:true
+                visibility:true,
+                available:true
             }
         });
         

@@ -71,6 +71,7 @@ model Menu{
   visibility Boolean @default(true)
   description String
   orders OrderItems[]
+  available Boolean @default(true)
 }
 
 model OrderItems{

@@ -5,6 +5,9 @@ import prisma from "@/db";
 export async function GET(req:NextRequest){
     try{
         let result=await prisma.menu.findMany({
+            where : {
+                available : true
+            },
             orderBy:{
                 creationDate:"desc"
             }

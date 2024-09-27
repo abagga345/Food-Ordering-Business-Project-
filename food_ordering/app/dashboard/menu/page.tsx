@@ -91,7 +91,7 @@ const MenuItems: React.FC = () => {
     const toastId = toast.loading("Deleting item...");
     try {
       const deleteItemResponse = await fetch(`/api/admin/deleteItem?id=${id}`, {
-        method: "DELETE",
+        method: "PUT",
       });
 
       if (!deleteItemResponse.ok) {
