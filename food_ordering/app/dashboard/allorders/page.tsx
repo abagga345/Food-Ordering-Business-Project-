@@ -25,6 +25,7 @@ interface OrderItem {
   timestamp: string;
   city: string;
   pincode: string;
+  amount: number;
 }
 
 interface OrderItemDetail {
@@ -169,9 +170,10 @@ const OrderModal = ({
   loadingItems: boolean;
 }) => {
   const calculateTotal = () => {
-    return orderItems.reduce((total, item) => {
-      return total + item.quantity * item.item.amount;
-    }, 0);
+    // return orderItems.reduce((total, item) => {
+    //   return total + item.quantity * item.item.amount;
+    // }, 0);
+    return order.amount;
   };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
@@ -228,7 +230,7 @@ const OrderModal = ({
                     >
                       <span>{item.item.title}</span>
                       <span>
-                        {item.quantity} x ${item.item.amount}
+                        {item.quantity} x ₹{item.item.amount}
                       </span>
                     </li>
                   ))}
@@ -236,7 +238,7 @@ const OrderModal = ({
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   <div className="flex justify-between items-center font-semibold">
                     <span>Total Amount:</span>
-                    <span>${calculateTotal().toFixed(2)}</span>
+                    <span>₹{calculateTotal().toFixed(2)}</span>
                   </div>
                 </div>
               </>

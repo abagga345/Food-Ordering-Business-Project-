@@ -16,7 +16,14 @@ export async function GET(req:NextRequest){
                 items:{
                     select:{
                         quantity:true,
-                        item:true
+                        item: true
+                        // {
+                            // select:{
+                            //     title:true,
+                            //     id:true,
+                            //     amount:true
+                            // }
+                        // }
                     }
                 }
             }
