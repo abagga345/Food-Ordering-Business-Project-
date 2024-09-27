@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import { Loader2, Trash2 } from "lucide-react";
 import Image from "next/image";
@@ -27,7 +27,9 @@ const MenuItems: React.FC = () => {
           throw new Error("Failed to fetch menu items");
         }
         const data = await response.json();
-        setMenuItems(data.items.map((item: MenuItem) => ({ ...item, loading: false })));
+        setMenuItems(
+          data.items.map((item: MenuItem) => ({ ...item, loading: false }))
+        );
         setLoading(false);
       } catch (err) {
         setError("An error occurred while fetching menu items");
@@ -170,11 +172,13 @@ const MenuItems: React.FC = () => {
                   disabled={item.loading}
                   onClick={() => toggleOutOfStock(index)}
                   className={`font-bold py-2 px-4 flex-grow rounded 
-                    ${item.loading
-                      ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                      : item.visibility 
+                    ${
+                      item.loading
+                        ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                        : item.visibility
                         ? "bg-green-500 hover:bg-green-600 text-white cursor-pointer"
-                        : "bg-red-500 hover:bg-red-600 text-white cursor-pointer"}`}
+                        : "bg-red-500 hover:bg-red-600 text-white cursor-pointer"
+                    }`}
                 >
                   {item.visibility == false
                     ? "Mark In Stock"
