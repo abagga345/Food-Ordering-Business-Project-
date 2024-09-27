@@ -15,6 +15,8 @@ import { signOut } from "next-auth/react";
 import { IoHome } from "react-icons/io5";
 import { VscSignOut } from "react-icons/vsc";
 import ConfirmationModal from "./Components";
+import { IoIosSettings } from "react-icons/io";
+import { ImProfile } from "react-icons/im";
 
 const navItems = [
   { href: "/", label: "Home", icon: IoHome },
@@ -26,6 +28,9 @@ const navItems = [
   },
   { href: "/dashboard/analytics", label: "Analytics", icon: MdAnalytics },
   { href: "/dashboard/additem", label: "Add Item", icon: MdAdd },
+  { href: "/dashboard/profile", label: "My Profile", icon: ImProfile },
+  { href: "/dashboard/settings", label: "Settings", icon: IoIosSettings },
+
   { href: "/dashboard/menu", label: "Menu", icon: MdOutlineMenuBook },
   { href: "/dashboard/addReviews", label: "Add Reviews", icon: MdRateReview },
 ];
@@ -49,7 +54,9 @@ const SidePanel = () => {
   return (
     <div className="w-64 bg-green-200 text-black h-full px-6 py-8 flex flex-col justify-between">
       <div>
-        <h2 className="text-2xl font-semibold mb-4"><MdDashboard className="inline" /> Dashboard</h2>
+        <h2 className="text-2xl font-semibold mb-4">
+          <MdDashboard className="inline" /> Dashboard
+        </h2>
         <nav>
           {navItems.map((item) => {
             const Icon = item.icon;
