@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
     let visible_items = await prisma.menu.aggregate({
       where: {
         visibility: true,
+        available:true
       },
       _count: {
         id: true,
@@ -30,6 +31,7 @@ export async function GET(req: NextRequest) {
     let hidden_items = await prisma.menu.aggregate({
       where: {
         visibility: false,
+        available:true
       },
       _count: {
         id: true,
