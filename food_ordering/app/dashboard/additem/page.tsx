@@ -12,6 +12,7 @@ const AddItem = () => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [buttonstate,setbuttonstate]=useState(true);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -53,6 +54,7 @@ const AddItem = () => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setbuttonstate(false);
     setLoading(true);
     const toastId = toast.loading("Adding Item...");
     try {
@@ -94,6 +96,7 @@ const AddItem = () => {
     } finally {
       setLoading(false);
     }
+    setbuttonstate(true);
   };
 
   return (
@@ -191,8 +194,9 @@ const AddItem = () => {
 
         <div>
           <button
-            type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            type="submit"  disabled={!buttonstate}
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white
+              ${buttonstate ? 'bg-green-600 hover:bg-green-700 focus:ring-indigo-500' : 'bg-gray-400 cursor-not-allowed'}`}
           >
             <PlusCircle className="mr-2 h-5 w-5" />
             Add Item

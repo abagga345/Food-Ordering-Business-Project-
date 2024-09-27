@@ -50,6 +50,7 @@ const Reviews = () => {
     rating: 0,
     description: "",
   });
+  const [buttonstate,setbuttonstate]=useState(true);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -64,6 +65,7 @@ const Reviews = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setbuttonstate(false);
     try {
       review["description"] = review.content;
       const response = await fetch("/api/user/addReviews", {
@@ -85,6 +87,7 @@ const Reviews = () => {
     } catch (err) {
       toast.error("An error occurred. Please try again.");
     }
+    setbuttonstate(true);
   };
 
   return (
@@ -114,8 +117,9 @@ const Reviews = () => {
               <StarRating rating={review.rating} onRate={handleRatingChange} />
             </div>
             <Button
-              type="submit"
-              className="w-full flex justify-center mt-5 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              type="submit"  disabled={!buttonstate}
+              className={`w-full flex justify-center mt-5 py-2 px-4 border border-transparent rounded-md shadow-sm text-white
+                ${buttonstate ? 'bg-green-600 hover:bg-green-700 focus:ring-indigo-500' : 'bg-gray-400 cursor-not-allowed'}`}
             >
               <PlusCircle className="mr-2 h-5 w-5" />
               Submit Review
