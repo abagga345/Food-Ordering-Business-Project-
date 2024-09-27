@@ -7,7 +7,7 @@ export async function GET(req:NextRequest){
         const pending_orders = await prisma.orders.findMany({
             where: {
                 status: {
-                    not: 'Delivered'
+                    notIn:['Delivered','Rejected']
                 }
             },
             include:{

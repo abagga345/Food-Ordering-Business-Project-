@@ -83,12 +83,12 @@ export default function Footer() {
           <ul className="text-lg">
             <li className="text-3xl font-bold mb-5">Useful Links</li>
             <li className="text-gray-700 mb-2">
-              <a className="hover-underline-thin" href="#">
+              <a className="hover-underline-thin" href="/account">
                 Track Order
               </a>
             </li>
             <li className="text-gray-700">
-              <a className="hover-underline-thin" href="#">
+              <a className="hover-underline-thin" href="/aboutus">
                 About Achar6ranga
               </a>
             </li>
