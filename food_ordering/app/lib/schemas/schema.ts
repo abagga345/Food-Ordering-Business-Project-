@@ -60,8 +60,3 @@ export const editUser=z.object({
     contactNo:z.string().length(10).optional(),
     password:z.string().min(5).max(30).optional()
 })
-
-const Item = z.object({
-    itemId: z.number().int(),
-    quantity: z.number().int()
-});
