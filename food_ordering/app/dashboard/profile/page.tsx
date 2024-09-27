@@ -1,8 +1,72 @@
 "use client";
+import { Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
+interface profile{
+  firstName:string;
+  lastName:string;
+  contactNo:string;
+  email:string;
+}
 
 const MyProfile = () => {
-  let globaluser = { fname: "Make", lname: " me" };
+  const [globaluser,setGlobalUser]=useState<profile>({ firstName: "", lastName: "" ,contactNo:"",email:""});
+  const [loading,setLoading]=useState(true);
+  const [error,setError]=useState(null);
+  
+  
+  useEffect(()=>{
+    setLoading(true);
+    const toastId = toast.loading("Loading Profile..");
+    fetch("http://localhost:3000/api/user/profile")
+      .then(async (data)=>{
+        let body=await data.json();
+        console.log(body);
+        toast.dismiss(toastId);
+        toast.success("Profile loaded successfully!", { id: toastId });
+        setGlobalUser({
+          firstName:body.firstName,
+          lastName:body.lastName,
+          contactNo:body.contactNo,
+          email:body.email
+        })
+        
+      })
+      .catch((err)=>{
+        toast.dismiss(toastId);
+        console.log(err);
+        setError(err.message);
+        toast.error(`Error: ${err.message}`, { id: toastId });
+      })
+      .finally(()=>{
+        setLoading(false);
+      })
+      
+  },[])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="w-10 h-10 animate-spin text-green-600" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div
+          className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
+          role="alert"
+        >
+          <p className="font-bold">Error</p>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col p-4 md:p-6 gap-6 md:gap-10 w-full md:w-[80%] mx-auto justify-center items-center">
       <h1 className="text-black font-semibold text-2xl md:text-4xl font-inter">
@@ -12,16 +76,15 @@ const MyProfile = () => {
         <div className="flex flex-col md:flex-row gap-4 md:gap-4 justify-between items-center text-white bg-red-800 p-4 md:p-8 rounded-lg">
           <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-between w-full">
             <img
-              src={`https://api.dicebear.com/7.x/initials/svg?seed=${globaluser?.fname}%20${globaluser?.lname}`}
+              src={`https://api.dicebear.com/7.x/initials/svg?seed=${globaluser?.firstName}%20${globaluser?.lastName}`}
               alt="profile"
               className="aspect-square w-[78px] rounded-full object-cover"
             />
             <div className="flex flex-col md:items-start items-center text-center md:text-left">
               <p className="text-lg">
-                {globaluser?.rank}
-                {"  "}
-                {globaluser?.fname + " "}
-                {globaluser?.lname ? globaluser?.lname : ""}
+                
+                {globaluser?.firstName + " "}
+                {globaluser?.lastName ? globaluser?.lastName : ""}
               </p>
               <p className="text-[#838894] text-md">{globaluser?.email}</p>
             </div>
@@ -116,53 +179,60 @@ const MyProfile = () => {
             <div className="flex flex-col md:flex-row gap-4 md:gap-8 w-full">
               <div className="flex flex-col gap-4 md:gap-8 w-full">
                 <div>
+                  <p>First Name</p>
+                  <p className="text-[#838894]">
+                    {globaluser?.firstName ? `${globaluser?.firstName}` : "Add First Name"}
+                  </p>
+                </div>
+
+                <div>
                   <p>Email</p>
                   <p className="text-[#838894]">{globaluser?.email}</p>
                 </div>
 
-                <div>
-                  <p>Gender</p>
-                  <p className="text-[#838894]">
-                    {globaluser?.gender
-                      ? `${globaluser?.gender}`
-                      : "Add Gender"}
-                  </p>
-                </div>
+                
 
-                <div>
+                {/* <div>
                   <p>Date Of Birth</p>
                   <p className="text-[#838894]">
                     {globaluser?.dob ? `${globaluser?.dob}` : "Add DOB"}
                   </p>
-                </div>
+                </div> */}
               </div>
 
               <div className="flex flex-col gap-4 md:gap-8 w-full">
                 <div>
-                  <p>Contact</p>
+                  <p>Last Name</p>
                   <p className="text-[#838894]">
-                    {globaluser?.contact
-                      ? `${globaluser?.contact}`
-                      : "Add Contact"}
+                    {globaluser?.lastName ? `${globaluser?.lastName}` : "Add First Name"}
                   </p>
                 </div>
 
                 <div>
+                  <p>Contact</p>
+                  <p className="text-[#838894]">
+                    {globaluser?.contactNo
+                      ? `${globaluser?.contactNo}`
+                      : "Add Contact"}
+                  </p>
+                </div>
+
+                {/* <div>
                   <p>Address</p>
                   <p className="text-[#838894]">
                     {globaluser?.address
                       ? `${globaluser?.address}`
                       : "Add Address"}
                   </p>
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                   <p>Blood Type</p>
                   <p className="text-[#838894]">
                     {globaluser?.blood
                       ? `${globaluser?.blood}`
                       : "Add Blood Type"}
                   </p>
-                </div>
+                </div> */}
                 {/* {!loggedInTeacher && (
                   <div>
                     <p>Company</p>

@@ -1,18 +1,67 @@
 "use client";
 
+import { NEXTAUTH_CONFIG } from "@/app/lib/auth";
+import axios from "axios";
+import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import toast from "react-hot-toast";
 
+interface profile{
+  firstName:string;
+  lastName:string;
+  contactNo:string;
+  email:string;
+}
+
 const Setting = () => {
-  let globaluser = { fname: "Make", lname: " me" };
+  const [globaluser,setGlobalUser]=useState<profile>({ firstName: "", lastName: "" ,contactNo:"",email:""});
+  const [loading,setLoading]=useState(true);
+  const [error,setError]=useState(null);
+  
+  
+  useEffect(()=>{
+    setLoading(true);
+    const toastId = toast.loading("Loading Profile..");
+    fetch("http://localhost:3000/api/user/profile")
+      .then(async (data)=>{
+        let body=await data.json();
+        console.log(body);
+        toast.dismiss(toastId);
+        toast.success("Profile loaded successfully!", { id: toastId });
+        setGlobalUser({
+          firstName:body.firstName,
+          lastName:body.lastName,
+          contactNo:body.contactNo,
+          email:body.email
+        })
+        
+      })
+      .catch((err)=>{
+        toast.dismiss(toastId);
+        console.log(err);
+        setError(err.message);
+        toast.error(`Error: ${err.message}`, { id: toastId });
+      })
+      .finally(()=>{
+        setLoading(false);
+      })
+      
+  },[])
 
   const { register, handleSubmit } = useForm();
 
   const handleProfileSubmit = async (data: any) => {
     const id = toast.loading("Saving...");
-
+    console.log(data);
     try {
+      let response=await axios.put("http://localhost:3000/api/user/editProfile",{
+        firstName:data.firstName,
+        lastName:data.lastName,
+        contactNo:data.contactNo
+      })
       toast.dismiss(id);
       toast.success("Profile updated successfully!");
     } catch (error: any) {
@@ -21,6 +70,28 @@ const Setting = () => {
       toast.error("Error updating profile");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="w-10 h-10 animate-spin text-green-600" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div
+          className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
+          role="alert"
+        >
+          <p className="font-bold">Error</p>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col p-2 md:p-6 gap-10 w-[90%] mx-auto min-h-screen">
@@ -31,109 +102,20 @@ const Setting = () => {
         <div className="flex flex-row gap-4 justify-between items-center text-white bg-red-800 p-8 rounded-lg">
           <div className="flex flex-row gap-8 items-center justify-between">
             <img
-              src={`https://api.dicebear.com/7.x/initials/svg?seed=${globaluser.fname}%20${globaluser.lname}`}
+              src={`https://api.dicebear.com/7.x/initials/svg?seed=${globaluser.firstName}%20${globaluser.lastName}`}
               alt="xyz"
               className="aspect-square w-20 rounded-full object-cover"
             />
             <div>
               <p className="text-lg my-1">
-                {globaluser.fname} {globaluser.lname}
+                {/* {globaluser.firstName} {globaluser.lastName} */}
+                {globaluser.email}
               </p>
-              {/* <div className="flex flex-col md:flex-row gap-4 mt-2">
-                <button
-                  className="py-2 bg-richblack-700 text-[#C5C7D4] rounded-lg px-4 font-semibold"
-                  onClick={handleClick}
-                >
-                  Select
-                </button>
-                <button
-                  className="flex flex-row gap-2 items-center text-black bg-yellow-50 rounded-lg px-4 py-2 font-semibold"
-                  onClick={handleFileUpload}
-                >
-                  <p>Upload</p>
-                  <BiCloudUpload className="text-lg" />
-                </button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                  accept="image/png, image/gif, image/jpeg"
-                />
-              </div> */}
             </div>
           </div>
         </div>
 
         <form onSubmit={handleSubmit(handleProfileSubmit)}>
-          {/* {!loggedInTeacher && (
-            <div className="flex flex-col gap-4 justify-between  text-white bg-red-800 p-8 rounded-lg my-4 ">
-              <div className="flex flex-row gap-8 items-center justify-between">
-                <div>
-                  <p className="text-lg my-1 font-semibold font-inter">
-                    Personal Details
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row items-center justify-between mt-4 w-[90%] md:w-[80%] gap-3">
-                <div className="flex flex-col gap-8 w-[100%] md:w-[40%]">
-                  <label htmlFor="rollNumber">
-                    <p className="text-[#F1F2FF]">NSUT Roll Number</p>
-                    <input
-                      type="text"
-                      name="roll"
-                      id="roll"
-                      placeholder="Enter NSUT Roll Number"
-                      defaultValue={globaluser?.roll}
-                      {...register("roll", { required: false })}
-                      className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
-                    />
-                  </label>
-                  <label htmlFor="dli">
-                    <p className="text-[#F1F2FF]">DLI Number</p>
-                    <input
-                      type="text"
-                      name="dli"
-                      id="dli"
-                      placeholder="Enter DLI Number"
-                      defaultValue={globaluser?.dli}
-                      {...register("dli", { required: false })}
-                      className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
-                    />
-                  </label>
-                </div>
-
-                <div className="flex flex-col gap-8 w-[100%] md:w-[40%]">
-                  <label htmlFor="father">
-                    <p className="text-[#F1F2FF]">Father's Name</p>
-                    <input
-                      type="text"
-                      name="father"
-                      id="father"
-                      placeholder="Enter Father's Name"
-                      defaultValue={globaluser?.fatherName}
-                      {...register("father")}
-                      className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
-                    />
-                  </label>
-                  <label htmlFor="mother">
-                    <p className="text-[#F1F2FF]">Mother's Name</p>
-                    <input
-                      type="text"
-                      name="mother"
-                      id="mother"
-                      placeholder="Enter Mother's Name"
-                      defaultValue={globaluser?.motherName}
-                      {...register("mother")}
-                      className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
-                    />
-                  </label>
-                </div>
-              </div>
-            </div>
-          )} */}
-
           <div className="flex flex-col gap-4 justify-between  text-white bg-red-800 p-8 rounded-lg">
             <div className="flex flex-row gap-8 items-center justify-between">
               <div>
@@ -149,10 +131,10 @@ const Setting = () => {
                   <p className="text-[#F1F2FF]">First Name</p>
                   <input
                     type="text"
-                    name="firstName"
+                    // name="firstName"
                     id="firstName"
                     placeholder="Enter First Name"
-                    defaultValue={globaluser?.fname}
+                    defaultValue={globaluser?.firstName}
                     {...register("firstName", { required: false })}
                     className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
                   />
@@ -161,16 +143,16 @@ const Setting = () => {
                   <p className="text-[#F1F2FF]">Last Name</p>
                   <input
                     type="text"
-                    name="LastName"
-                    id="lastname"
+                    // name="LastName"
+                    id="lastName"
                     placeholder="Enter Last Name"
-                    defaultValue={globaluser?.lname}
+                    defaultValue={globaluser?.lastName}
                     {...register("lastName", { required: false })}
                     className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
                   />
                 </label>
 
-                <label htmlFor="address">
+                {/* <label htmlFor="address">
                   <p className="text-[#F1F2FF]">Address</p>
                   <input
                     type="text"
@@ -181,24 +163,24 @@ const Setting = () => {
                     {...register("address")}
                     className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
                   />
-                </label>
+                </label> */}
 
                 <label htmlFor="contact">
                   <p className="text-[#F1F2FF]">Contact Number</p>
                   <input
                     type="number"
-                    name="phoneNumb"
-                    id="contact"
+                    // name="contactNo"
+                    id="contactNo"
                     placeholder="Enter Contact Number"
-                    defaultValue={globaluser?.contact}
-                    {...register("phoneNumb")}
+                    defaultValue={globaluser?.contactNo}
+                    {...register("contactNo")}
                     className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
                   />
                 </label>
               </div>
 
-              <div className="flex flex-col gap-8 md:w-[40%] w-[100%]">
-                <label htmlFor="bloodType">
+              {/* <div className="flex flex-col gap-8 md:w-[40%] w-[100%]"> */}
+                {/* <label htmlFor="bloodType">
                   <p className="text-[#F1F2FF]">Blood type</p>
                   <input
                     type="text"
@@ -234,7 +216,7 @@ const Setting = () => {
                     {...register("dob")}
                     className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
                   />
-                </label>
+                </label> */}
 
                 {/* {!loggedInTeacher && (
                   <>
@@ -264,7 +246,7 @@ const Setting = () => {
                     </label>
                   </>
                 )} */}
-              </div>
+              {/* </div> */}
             </div>
           </div>
 
