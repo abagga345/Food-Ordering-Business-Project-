@@ -11,6 +11,7 @@ import {
   MapPin,
   Clock,
   X,
+  ShoppingCart,
 } from "lucide-react";
 
 interface OrderItem {
@@ -26,11 +27,22 @@ interface OrderItem {
   pincode: string;
 }
 
+interface OrderItemDetail {
+  quantity: number;
+  item: {
+    id: number;
+    title: string;
+    amount: number;
+  };
+}
+
 const AllOrders = () => {
   const [orders, setOrders] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<OrderItem | null>(null);
+  const [orderItems, setOrderItems] = useState<OrderItemDetail[]>([]);
+  const [loadingItems, setLoadingItems] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -53,6 +65,28 @@ const AllOrders = () => {
     };
     fetchOrders();
   }, []);
+
+  const fetchOrderItems = async (orderId: number) => {
+    setLoadingItems(true);
+    try {
+      const response = await fetch(`/api/admin/viewItems?id=${orderId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch order items");
+      }
+      const data = await response.json();
+      console.log(data);
+      setOrderItems(data.items);
+    } catch (error: any) {
+      toast.error(`Error fetching order items: ${error.message}`);
+    } finally {
+      setLoadingItems(false);
+    }
+  };
+
+  const handleOrderClick = (order: OrderItem) => {
+    setSelectedOrder(order);
+    fetchOrderItems(order.id);
+  };
 
   if (loading) {
     return (
@@ -97,7 +131,7 @@ const AllOrders = () => {
               <tr
                 key={order.id}
                 className="border-b hover:bg-gray-100 cursor-pointer"
-                onClick={() => setSelectedOrder(order)}
+                onClick={() => handleOrderClick(order)}
               >
                 <td className="px-4 py-2 text-center">{order.id}</td>
                 <td className="px-4 py-2">{order.description}</td>
@@ -115,6 +149,8 @@ const AllOrders = () => {
         <OrderModal
           order={selectedOrder}
           onClose={() => setSelectedOrder(null)}
+          orderItems={orderItems}
+          loadingItems={loadingItems}
         />
       )}
     </div>
@@ -124,10 +160,19 @@ const AllOrders = () => {
 const OrderModal = ({
   order,
   onClose,
+  orderItems,
+  loadingItems,
 }: {
   order: OrderItem;
   onClose: () => void;
+  orderItems: OrderItemDetail[];
+  loadingItems: boolean;
 }) => {
+  const calculateTotal = () => {
+    return orderItems.reduce((total, item) => {
+      return total + item.quantity * item.item.amount;
+    }, 0);
+  };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
@@ -163,6 +208,40 @@ const OrderModal = ({
             label="Timestamp"
             value={new Date(order.timestamp).toLocaleString()}
           />
+
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-2 flex items-center">
+              <ShoppingCart className="w-5 h-5 mr-2 text-green-600" />
+              Order Items
+            </h3>
+            {loadingItems ? (
+              <div className="flex items-center justify-center">
+                <Loader2 className="w-6 h-6 animate-spin text-green-600" />
+              </div>
+            ) : (
+              <>
+                <ul className="space-y-2">
+                  {orderItems.map((item, index) => (
+                    <li
+                      key={index}
+                      className="flex justify-between items-center"
+                    >
+                      <span>{item.item.title}</span>
+                      <span>
+                        {item.quantity} x ${item.item.amount}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="flex justify-between items-center font-semibold">
+                    <span>Total Amount:</span>
+                    <span>${calculateTotal().toFixed(2)}</span>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
