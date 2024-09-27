@@ -1,8 +1,7 @@
-"use client";
-
+"use client"
+import React, { useState, useEffect } from "react";
 import { Loader2, Trash2 } from "lucide-react";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 interface MenuItem {
@@ -12,18 +11,11 @@ interface MenuItem {
   amount: number;
   imageUrl: string;
   visibility: boolean;
-}
-
-interface OutItem {
-  id: number;
-  visibility: boolean;
+  loading?: boolean;
 }
 
 const MenuItems: React.FC = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [outOfStockItems, setOutOfStockItems] = useState<Set<number>>(
-    new Set()
-  );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +27,7 @@ const MenuItems: React.FC = () => {
           throw new Error("Failed to fetch menu items");
         }
         const data = await response.json();
-        setMenuItems(data.items);
+        setMenuItems(data.items.map((item: MenuItem) => ({ ...item, loading: false })));
         setLoading(false);
       } catch (err) {
         setError("An error occurred while fetching menu items");
@@ -46,6 +38,12 @@ const MenuItems: React.FC = () => {
   }, []);
 
   const toggleOutOfStock = async (index: number) => {
+    setMenuItems((prevItems) => {
+      const updatedItems = [...prevItems];
+      updatedItems[index].loading = true;
+      return updatedItems;
+    });
+
     const toastId = toast.loading("Changing Status...");
     try {
       const item = menuItems[index];
@@ -69,6 +67,7 @@ const MenuItems: React.FC = () => {
         updatedItems[index] = {
           ...updatedItems[index],
           visibility: !prevItems[index].visibility,
+          loading: false,
         };
         return updatedItems;
       });
@@ -78,6 +77,11 @@ const MenuItems: React.FC = () => {
       console.error("Failed to update visibility:", error);
       toast.dismiss(toastId);
       toast.error("Failed to change status", { id: toastId });
+      setMenuItems((prevItems) => {
+        const updatedItems = [...prevItems];
+        updatedItems[index].loading = false;
+        return updatedItems;
+      });
     }
   };
 
@@ -163,12 +167,14 @@ const MenuItems: React.FC = () => {
               <p className="text-gray-600 mb-4">{item.description}</p>
               <div className="flex justify-between gap-2">
                 <button
+                  disabled={item.loading}
                   onClick={() => toggleOutOfStock(index)}
-                  className={`font-bold py-2 px-4 flex-grow rounded ${
-                    item.visibility == false
-                      ? "bg-green-500 hover:bg-green-600 text-white"
-                      : "bg-red-500 hover:bg-red-600 text-white"
-                  }`}
+                  className={`font-bold py-2 px-4 flex-grow rounded 
+                    ${item.loading
+                      ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                      : item.visibility 
+                        ? "bg-green-500 hover:bg-green-600 text-white cursor-pointer"
+                        : "bg-red-500 hover:bg-red-600 text-white cursor-pointer"}`}
                 >
                   {item.visibility == false
                     ? "Mark In Stock"
