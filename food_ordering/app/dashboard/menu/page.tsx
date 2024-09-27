@@ -176,8 +176,8 @@ const MenuItems: React.FC = () => {
                       item.loading
                         ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                         : item.visibility
-                        ? "bg-green-500 hover:bg-green-600 text-white cursor-pointer"
-                        : "bg-red-500 hover:bg-red-600 text-white cursor-pointer"
+                        ? "bg-green-500 hover:bg-green-600 cursor-pointer"
+                        : "bg-red-500 hover:bg-red-600 cursor-pointer"
                     }`}
                 >
                   {item.visibility == false

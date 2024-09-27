@@ -48,7 +48,7 @@ export const checkout=z.object({
     city:z.string().max(50),
     pincode:z.string().min(6).max(7),
     items:z.array(z.object({
-        id:z.number().int(),
+        itemId:z.number().int(),
         quantity:z.number().int()
     })),
     amount:z.number()
@@ -61,3 +61,7 @@ export const editUser=z.object({
     password:z.string().min(5).max(30).optional()
 })
 
+const Item = z.object({
+    itemId: z.number().int(),
+    quantity: z.number().int()
+});
