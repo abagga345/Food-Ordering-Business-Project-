@@ -55,8 +55,8 @@ export const checkout=z.object({
 })
 
 export const editUser=z.object({
-    firstName:z.string().optional(),
-    lastName:z.string().optional(),
-    contactNo:z.string().length(10).optional(),
+    firstName:z.string().min(1),
+    lastName:z.string().min(1),
+    contactNo:z.string().length(10),
     password:z.string().min(5).max(30).optional()
 })

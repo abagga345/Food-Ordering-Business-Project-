@@ -254,7 +254,8 @@ const Setting = () => {
             {/* To be edited */}
             <button
               className="bg-black text-white rounded-lg p-4 font-semibold"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 window.location.href = "/dashboard/profile";
               }}
             >
