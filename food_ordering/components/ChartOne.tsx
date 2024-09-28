@@ -1,4 +1,5 @@
 "use client";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { MdSell } from "react-icons/md";
 import { MdRateReview } from "react-icons/md";
@@ -36,7 +37,11 @@ const ChartOne = () => {
     fetchData();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <Loader2 className="w-10 h-10 animate-spin text-green-600" />
+    );
+  }
   if (error) return <p>Error: {error}</p>;
 
   return (
