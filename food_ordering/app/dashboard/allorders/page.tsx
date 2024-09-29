@@ -12,6 +12,7 @@ import {
   Clock,
   X,
   ShoppingCart,
+  Wallet,
 } from "lucide-react";
 
 interface OrderItem {
@@ -26,6 +27,7 @@ interface OrderItem {
   city: string;
   pincode: string;
   amount: number;
+  paymentMethod:string;
 }
 
 interface OrderItemDetail {
@@ -125,6 +127,7 @@ const AllOrders = () => {
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2">Timestamp</th>
+              <th className="px-4 py-2">Payment Method</th>
             </tr>
           </thead>
           <tbody>
@@ -141,6 +144,7 @@ const AllOrders = () => {
                 <td className="px-4 py-2">
                   {new Date(order.timestamp).toLocaleString()}
                 </td>
+                <td className="px-4 py-2">{order.paymentMethod}</td>
               </tr>
             ))}
           </tbody>
@@ -209,6 +213,11 @@ const OrderModal = ({
             icon={Clock}
             label="Timestamp"
             value={new Date(order.timestamp).toLocaleString()}
+          />
+           <OrderDetail
+            icon={Wallet}
+            label="Payment Method"
+            value={order.paymentMethod}
           />
 
           <div className="mt-6">

@@ -64,7 +64,7 @@ model Orders{
   timestamp DateTime @default(now())
   city String
   pincode String
-  paymentMethod paymentMethods @default(COD)
+  paymentMethod paymentMethods
   user Users @relation(fields: [email],references: [email])
   items OrderItems[]
 }

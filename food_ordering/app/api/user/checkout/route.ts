@@ -79,6 +79,7 @@ export async function POST(req: NextRequest) {
           })),
         },
         amount: body.amount,
+        paymentMethod : body.paymentMethod,
       },
       include: {
         items: true,

@@ -1,3 +1,4 @@
+import { paymentMethods } from '@prisma/client'
 import {z} from 'zod'
 
 export const signup=z.object({
@@ -51,7 +52,8 @@ export const checkout=z.object({
         itemId:z.number().int(),
         quantity:z.number().int()
     })),
-    amount:z.number()
+    amount:z.number(),
+    paymentMethod:z.literal("COD").or(z.literal("UPI")).or(z.literal("StorePayment"))
 })
 
 export const editUser=z.object({
