@@ -116,8 +116,8 @@ const AllOrders = () => {
       <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
         All Orders
       </h1>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
+      <div className="overflow-x-auto rounded-lg mb-10">
+        <table className="min-w-full bg-white border rounded-lg">
           <thead>
             <tr className="bg-green-600 text-white">
               <th className="px-4 py-2">Order ID</th>
@@ -212,10 +212,11 @@ const OrderModal = ({
           />
 
           <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-2 flex items-center">
+            <h3 className="text-lg font-semibold mb-2 mt-6 flex items-center">
               <ShoppingCart className="w-5 h-5 mr-2 text-green-600" />
-              Order Items
+              <p>Order Items</p>
             </h3>
+            <hr className="mb-4" />
             {loadingItems ? (
               <div className="flex items-center justify-center">
                 <Loader2 className="w-6 h-6 animate-spin text-green-600" />
