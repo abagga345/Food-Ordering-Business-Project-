@@ -14,46 +14,46 @@ const Dashboard = () => {
           <MdDashboard className="inline" /> Welcome to the Dashboard
         </h1>
         <hr className="my-4" />
-        <h2 className="text-xl my-4">
+        <h2 className="text-lg mt-4 mb-6">
           Ready to serve up something great? Let&apos;s get started!
         </h2>
         <ul>
-          <li className="text-lg mb-4">
+          <li className="text-md mb-4">
             <span className="font-semibold">
               <MdBorderColor className="inline" /> All Orders
             </span>
             <br /> Manage and track all orders at a glance.
           </li>
           <hr className="mb-4" />
-          <li className="text-lg mb-4">
+          <li className="text-md mb-4">
             <span className="font-semibold">
               <MdPendingActions className="inline" /> Pending Orders
             </span>
             <br /> Keep up with orders waiting to be fulfilled.
           </li>
           <hr className="mb-4" />
-          <li className="text-lg mb-4">
+          <li className="text-md mb-4">
             <span className="font-semibold">
               <MdAnalytics className="inline" /> Analytics
             </span>
             <br /> Dive into insights and trends to grow your business.
           </li>
           <hr className="mb-4" />
-          <li className="text-lg mb-4">
+          <li className="text-md mb-4">
             <span className="font-semibold">
               <MdAdd className="inline" /> Add Item
             </span>
             <br /> Update your menu with delicious new offerings.
           </li>
           <hr className="mb-4" />
-          <li className="text-lg mb-4">
+          <li className="text-md mb-4">
             <span className="font-semibold">
               <MdOutlineMenuBook className="inline" /> Menu
             </span>
             <br /> View and customize your entire menu.
           </li>
           <hr className="mb-4" />
-          <li className="text-lg mb-4">
+          <li className="text-md mb-4">
             <span className="font-semibold">
               <MdRateReview className="inline" /> Add Reviews
             </span>
