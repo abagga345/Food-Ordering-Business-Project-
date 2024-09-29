@@ -24,7 +24,7 @@ interface OrderItem {
   houseStreet: string;
   landmark: string;
   timestamp: string;
-  city: string;
+  state: string;
   pincode: string;
   amount: number;
   paymentMethod:string;
@@ -207,7 +207,7 @@ const OrderModal = ({
             value={order.houseStreet}
           />
           <OrderDetail icon={MapPin} label="Landmark" value={order.landmark} />
-          <OrderDetail icon={MapPin} label="City" value={order.city} />
+          <OrderDetail icon={MapPin} label="State" value={order.state} />
           <OrderDetail icon={MapPin} label="Pincode" value={order.pincode} />
           <OrderDetail
             icon={Clock}

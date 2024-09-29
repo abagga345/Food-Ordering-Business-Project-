@@ -18,7 +18,7 @@ interface Order {
   timestamp: string;
   houseStreet: string;
   landmark: string;
-  city: string;
+  state: string;
   pincode: string;
   items: OrderItem[];
   description?: string;
@@ -155,7 +155,7 @@ const PendingOrders = () => {
                 </div>
                 <div className="flex items-center">
                   <MapPin className="w-5 h-5 mr-2 text-green-600" />
-                  <span className="text-gray-600 w-full">{`${order.houseStreet}, ${order.landmark}, ${order.city}, ${order.pincode}`}</span>
+                  <span className="text-gray-600 w-full">{`${order.houseStreet}, ${order.landmark}, ${order.state}, ${order.pincode}`}</span>
                 </div>
                 <div className="flex items-center">
                   <Wallet className="w-5 h-5 mr-2 text-green-600"/>

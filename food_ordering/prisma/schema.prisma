@@ -62,7 +62,7 @@ model Orders{
   houseStreet String
   landmark String
   timestamp DateTime @default(now())
-  city String
+  state String 
   pincode String
   paymentMethod paymentMethods
   user Users @relation(fields: [email],references: [email])

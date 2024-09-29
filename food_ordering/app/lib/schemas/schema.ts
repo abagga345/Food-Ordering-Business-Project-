@@ -46,7 +46,7 @@ export const checkout=z.object({
     description:z.string().max(75),
     houseStreet:z.string().max(70),
     landmark:z.string().max(70),
-    city:z.string().max(50),
+    state:z.string().max(50),
     pincode:z.string().min(6).max(7),
     items:z.array(z.object({
         itemId:z.number().int(),
