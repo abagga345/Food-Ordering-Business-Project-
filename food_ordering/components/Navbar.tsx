@@ -85,16 +85,17 @@ export default function Navbar() {
         </div>
         <div className="flex flex-row items-center py-4 px-8 w-[100%] mx-auto">
           <div className="flex flex-row gap-8 text-md w-[33.3%] ">
-            <Link href="/" className="">
+            <Link href="/menu" className="">
               <p className="hover-underline-animation font-semibold">
                 All Products
               </p>
             </Link>
           </div>
           <div className="w-[33.3%] flex flex-row justify-center items-center">
-            <Image src={logo} alt="logo" className="h-16 w-16 center"></Image>
+            <Link href="/">
+              <Image src={logo} alt="logo" className="h-16 w-16 center"></Image>
+            </Link>
           </div>
-          {/* logo */}
           <div className=" w-[33.3%]">
             <div className="flex flex-row gap-1 justify-end items-center">
               <Link href="/dashboard" className="px-2 py-3.5">

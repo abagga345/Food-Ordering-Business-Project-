@@ -10,6 +10,7 @@ import "./reviews.css";
 
 // Import required modules
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
+import Loader from "./Loader";
 
 // Define the type for a review object
 interface Review {
@@ -66,9 +67,12 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <div className="text-white w-[80%] mx-auto bg-gray-50 px-10 pt-10 pb-5 my-20 rounded-xl border border-gray-100" id="testimonials">
+    <div
+      className="text-white w-[80%] mx-auto bg-gray-50 px-10 pt-10 pb-5 my-20 rounded-xl border border-gray-100"
+      id="testimonials"
+    >
       {loading ? (
-        <p>Loading reviews...</p>
+        <Loader />
       ) : (
         <>
           {avgRating && (
@@ -85,7 +89,7 @@ export default function Testimonials() {
               loop={true}
               freeMode={true}
               autoplay={{
-                delay: 3500,
+                delay: 5500,
                 disableOnInteraction: false,
               }}
               modules={[FreeMode, Pagination, Autoplay]}
@@ -111,9 +115,7 @@ export default function Testimonials() {
                       </div>
                       <StarRating rating={review.rating} />
                     </div>
-                    <p className="text-lg">
-                      {review.description}
-                    </p>
+                    <p className="text-lg">{review.description}</p>
                   </div>
                 </SwiperSlide>
               ))}
