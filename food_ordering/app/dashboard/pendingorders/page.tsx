@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Clock, MapPin, Package, User, Info, Loader2 } from "lucide-react";
+import { Clock, MapPin, Package, User, Info, Loader2,Wallet } from "lucide-react";
 
 interface OrderItem {
   item: {
@@ -22,6 +22,7 @@ interface Order {
   pincode: string;
   items: OrderItem[];
   description?: string;
+  paymentMethod : string;
 }
 
 const PendingOrders = () => {
@@ -156,6 +157,10 @@ const PendingOrders = () => {
                   <MapPin className="w-5 h-5 mr-2 text-green-600" />
                   <span className="text-gray-600 w-full">{`${order.houseStreet}, ${order.landmark}, ${order.city}, ${order.pincode}`}</span>
                 </div>
+                <div className="flex items-center">
+                  <Wallet className="w-5 h-5 mr-2 text-green-600"/>
+                  <span className="text-gray-600 w-full">{order.paymentMethod}</span>
+                  </div>
               </div>
               <div className="border-t border-gray-200 pt-4">
                 <h3 className="text-lg font-semibold mb-2 text-gray-800">
