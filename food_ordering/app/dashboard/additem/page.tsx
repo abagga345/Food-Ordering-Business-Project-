@@ -121,7 +121,7 @@ const AddItem = () => {
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm border focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm border focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             required
           />
         </div>
@@ -134,7 +134,7 @@ const AddItem = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="mt-1 block w-full rounded-md border-gray-300 border shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="mt-1 p-2 block w-full rounded-md border-gray-300 border shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             required
           ></textarea>
         </div>
@@ -147,7 +147,7 @@ const AddItem = () => {
             id="amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 border shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="mt-1 p-2 block w-full rounded-md border-gray-300 border shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             required
           />
         </div>
