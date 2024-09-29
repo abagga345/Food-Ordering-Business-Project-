@@ -1,5 +1,5 @@
 "use client";
-import { Banknote } from "lucide-react";
+import { Banknote, Loader2 } from "lucide-react";
 import { Store } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,28 +13,59 @@ interface fields {
   description: string;
 }
 
+interface Item{
+    id:number;
+    quantity:number;
+    amount:number;
+}
+
+interface ItemBody{
+    items:Item[]
+}
+
 //items =========> JSON.stringify({ items: [ {id:,quantity:,price: }  ] } )
 export default function Checkout() {
   const [amount,setAmount]=useState(0);
-  const [items,setItems]=useState([]);
+  const [tax1,setTax1]=useState(0);
+  const [tax2,setTax2]=useState(0);
+  const [items,setItems]=useState<Item[]>([]);
   const [error,setError]=useState("");
   const [message,setMessage]=useState("");
-  const { cod, setCod } = useState(false);
-  const { register, handleSubmit } = useForm<fields>();
+  const [loading,setLoading]=useState(true);
+  const { register, handleSubmit,watch } = useForm<fields>({
+    defaultValues: {
+      state: "Delhi", // Set default value as "Delhi"
+    }
+    } );
+  const method=watch('paymentMethod');
+  
   
   useEffect(()=>{
+    setLoading(true);
     const itemstemp=localStorage.getItem("items");
     if (!itemstemp){
         setError("No Items Added to Cart");
     }
     else{
-        const itemsbody=JSON.parse(itemstemp);
-        const itemsarr=itemsbody["items"];
+        const itemsbody:ItemBody=JSON.parse(itemstemp);
+        const itemsarr=itemsbody.items;
+        if (itemsarr===undefined || process.env.NEXT_PUBLIC_TAXRATE_1===undefined || process.env.NEXT_PUBLIC_TAXRATE_2===undefined){
+            setError("Internal Error due to taxation issues");
+            return;
+        }
         let temp=0;
-        
-        setItems(itemsbody["items"])
+        for(let i=0;i<itemsarr.length;i++){
+            temp+=(itemsarr[i]["amount"]*itemsarr[i]["quantity"]);
+        }
+        setTax1((parseInt(process.env.NEXT_PUBLIC_TAXRATE_1)*temp)/100);
+        setTax2((parseInt(process.env.NEXT_PUBLIC_TAXRATE_2)*temp)/100);
+        setItems(itemsarr);
+        setAmount(temp);
     }
+    setLoading(false);
    },[])
+
+   
   
   
 
@@ -52,7 +83,7 @@ export default function Checkout() {
         landmark: data.landmark,
         pincode: data.postalCode,
         paymentMethod: data.paymentMethod,
-        amount:amount,
+        amount:amount+cod,
         items:items
       }),
     }).then(async (data)=>{
@@ -63,12 +94,18 @@ export default function Checkout() {
     })
     }
 
-    if (error!="") {
+    if (loading) {
+        return (
+          <div className="flex items-center justify-center h-screen">
+            <Loader2 className="w-10 h-10 animate-spin text-green-600" />
+          </div>
+        );
+    }
+    else if (error!="") {
         //MAKE ERROR UI
     
     }
-
-    if (message!=""){
+    else if (message!=""){
         // MAKE CONFIRMATION MESSAGE UI
     }
 
@@ -127,6 +164,7 @@ export default function Checkout() {
                   type="radio"
                   value="UPI"
                   {...register("paymentMethod")}
+                  
                   defaultChecked
                 />
                 <span className="peer-checked:border-green-600 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
@@ -155,6 +193,7 @@ export default function Checkout() {
                   type="radio"
                   value="COD"
                   {...register("paymentMethod")}
+                  
                 />
                 <span className="peer-checked:border-green-600 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
                 <label
@@ -178,6 +217,7 @@ export default function Checkout() {
                   type="radio"
                   value="StorePayment"
                   {...register("paymentMethod")}
+                  
                 />
                 <span className="peer-checked:border-green-600 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
                 <label
@@ -226,8 +266,10 @@ export default function Checkout() {
                 </div>
                 <select
                   {...register("state", { required: true })}
+                  
                   className="w-full rounded-md border bg-white border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-green-500 focus:ring-green-500"
                 >
+                  <option>Delhi</option>
                   <option>Andhra Pradesh</option>
                   <option>Arunachal Pradesh</option>
                   <option>Assam</option>
@@ -261,7 +303,6 @@ export default function Checkout() {
                   <option>Chandigarh</option>
                   <option>Dadra and Nagar Haveli</option>
                   <option>Daman and Diu</option>
-                  <option selected>Delhi</option>
                   <option>Lakshadweep</option>
                   <option>Puducherry</option>
                 </select>
@@ -347,12 +388,16 @@ export default function Checkout() {
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Shipping</p>
-                  <p className="font-semibold text-gray-900">$8.00</p>
+                  <p className="font-semibold text-gray-900">{parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-gray-900">TAX</p>
+                  <p className="font-semibold text-gray-900">{}</p>
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-between">
                 <p className="text-lg font-medium text-gray-900">Total</p>
-                <p className="text-xl font-semibold text-gray-900">$408.00</p>
+                <p className="text-xl font-semibold text-gray-900">{amount+(method==="COD"?40:0)+parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string)}</p>
               </div>
             </div>
             <button
