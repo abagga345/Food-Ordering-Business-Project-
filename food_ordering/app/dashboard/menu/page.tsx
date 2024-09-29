@@ -141,13 +141,12 @@ const MenuItems: React.FC = () => {
         {menuItems.map((item, index) => (
           <div
             key={index}
-            className={`bg-white rounded-lg shadow-md overflow-hidden ${
-              item.visibility == false ? "opacity-50" : ""
-            }`}
+            className={`bg-white rounded-lg shadow-md overflow-hidden ${item.visibility == false ? "opacity-50" : ""
+              }`}
           >
             {item.imageUrl != "www.whiterosepearora.com" &&
-            item.imageUrl != "www.aroranerd.com" &&
-            item.imageUrl != "www.triptiarora.com" ? (
+              item.imageUrl != "www.aroranerd.com" &&
+              item.imageUrl != "www.triptiarora.com" ? (
               <Image
                 src={item.imageUrl}
                 alt={item.title}
@@ -171,12 +170,11 @@ const MenuItems: React.FC = () => {
                 <button
                   disabled={item.loading}
                   onClick={() => toggleOutOfStock(index)}
-                  className={`font-bold py-2 px-4 flex-grow rounded 
-                    ${
-                      item.loading
-                        ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                        : item.visibility
-                        ? "bg-green-500 hover:bg-green-600 cursor-pointer"
+                  className={`font-semibold text-gray-100 py-2 px-4 flex-grow rounded 
+                    ${item.loading
+                      ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                      : item.visibility
+                        ? "bg-green-600 hover:bg-green-700 cursor-pointer"
                         : "bg-red-500 hover:bg-red-600 cursor-pointer"
                     }`}
                 >
@@ -192,7 +190,7 @@ const MenuItems: React.FC = () => {
                 </button>
               </div>
               {item.visibility == false && (
-                <p className="text-red-500 font-bold">Out of Stock</p>
+                <p className="text-red-500 font-bold text-center mt-3">Out of Stock</p>
               )}
             </div>
           </div>

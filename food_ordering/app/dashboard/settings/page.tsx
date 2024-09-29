@@ -95,11 +95,11 @@ const Setting = () => {
 
   return (
     <div className="flex flex-col p-2 md:p-6 gap-10 w-[90%] mx-auto min-h-screen">
-      <h1 className="text-black font-semibold text-4xl font-inter">
+      <h1 className="text-black font-semibold text-2xl font-inter text-center">
         Edit Profile
       </h1>
       <div className="flex flex-col gap-8 w-full">
-        <div className="flex flex-row gap-4 justify-between items-center text-white bg-red-800 p-8 rounded-lg">
+        <div className="flex flex-row gap-4 justify-between items-center text-black bg-white p-8 rounded-lg shadow-lg">
           <div className="flex flex-row gap-8 items-center justify-between">
             <img
               src={`https://api.dicebear.com/7.x/initials/svg?seed=${globaluser.firstName}%20${globaluser.lastName}`}
@@ -116,19 +116,21 @@ const Setting = () => {
         </div>
 
         <form onSubmit={handleSubmit(handleProfileSubmit)}>
-          <div className="flex flex-col gap-4 justify-between  text-white bg-red-800 p-8 rounded-lg">
+          <div className="flex flex-col gap-4 mb-10 justify-between text-black bg-white p-8 rounded-lg shadow-lg">
             <div className="flex flex-row gap-8 items-center justify-between">
               <div>
                 <p className="text-lg my-1 font-semibold font-inter">
-                  Profile Information
+                  Edit Profile Information
                 </p>
               </div>
             </div>
 
+            <hr />
+
             <div className="flex flex-col md:flex-row items-center justify-between mt-4 md:w-[80%] w-[90%] gap-3">
-              <div className="flex flex-col gap-8 md:w-[40%] w-[100%]">
+              <div className="flex md:flex-row flex-col gap-8 md:w-[100%]">
                 <label htmlFor="firstName">
-                  <p className="text-[#F1F2FF]">First Name</p>
+                  <p>First Name</p>
                   <input
                     type="text"
                     // name="firstName"
@@ -136,11 +138,11 @@ const Setting = () => {
                     placeholder="Enter First Name"
                     defaultValue={globaluser?.firstName}
                     {...register("firstName", { required: false })}
-                    className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
+                    className="bg-gray-100 p-3 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
                   />
                 </label>
                 <label htmlFor="lastname">
-                  <p className="text-[#F1F2FF]">Last Name</p>
+                  <p>Last Name</p>
                   <input
                     type="text"
                     // name="LastName"
@@ -148,7 +150,7 @@ const Setting = () => {
                     placeholder="Enter Last Name"
                     defaultValue={globaluser?.lastName}
                     {...register("lastName", { required: false })}
-                    className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
+                    className="bg-gray-100 p-3 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
                   />
                 </label>
 
@@ -166,7 +168,7 @@ const Setting = () => {
                 </label> */}
 
                 <label htmlFor="contact">
-                  <p className="text-[#F1F2FF]">Contact Number</p>
+                  <p>Contact Number</p>
                   <input
                     type="number"
                     // name="contactNo"
@@ -174,7 +176,7 @@ const Setting = () => {
                     placeholder="Enter Contact Number"
                     defaultValue={globaluser?.contactNo}
                     {...register("contactNo")}
-                    className="bg-[#D3E3FD] p-2 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
+                    className="bg-gray-100 p-3 rounded-md mt-3 focus:outline-none w-[100%] text-black font-medium"
                   />
                 </label>
               </div>
@@ -253,7 +255,7 @@ const Setting = () => {
           <div className="flex flex-row-reverse gap-4 mt-6">
             {/* To be edited */}
             <button
-              className="bg-black text-white rounded-lg p-4 font-semibold"
+              className="bg-gray-500 hover:bg-gray-600 text-white rounded-lg p-3 font-semibold w-[100%] shadow-lg"
               onClick={(e) => {
                 e.preventDefault();
                 window.location.href = "/dashboard/profile";
@@ -262,10 +264,10 @@ const Setting = () => {
               Cancel
             </button>
             <button
-              className="flex flex-row items-center text-white bg-red-600 rounded-lg font-semibold p-4"
+              className="text-white bg-green-600 hover:bg-green-700 rounded-lg font-semibold w-[100%] shadow-lg"
               type="submit"
             >
-              <p>Save</p>
+              Save
             </button>
           </div>
         </form>

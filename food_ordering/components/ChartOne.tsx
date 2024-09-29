@@ -45,8 +45,8 @@ const ChartOne = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="flex flex-row gap-2">
-      <div className="flex flex-col items-center w-[50%]">
+    <div className="flex md:flex-row flex-col">
+      <div className="flex flex-col items-center md:w-[50%] w-[100%]">
         <div className="bg-white shadow-lg p-4 rounded-lg mb-6 w-[90%]">
           <div className="flex flex-col items-center gap-2">
             <div className="flex flex-row items-center gap-2 text-lg">
@@ -56,7 +56,7 @@ const ChartOne = () => {
             <p>₹ {totalSales !== null ? totalSales : "N/A"}</p>
           </div>
         </div>
-        <div className="bg-white shadow-lg p-4 rounded-lg mb-6  w-[90%]">
+        <div className="bg-white shadow-lg p-4 rounded-lg mb-6 w-[90%]">
           <div className="flex flex-col items-center gap-2">
             <div className="flex flex-row items-center gap-2 text-lg">
               <MdOutlineMenuBook />
@@ -66,7 +66,7 @@ const ChartOne = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center  w-[50%]">
+      <div className="flex flex-col items-center md:w-[50%]">
         <div className="bg-white shadow-lg p-4 rounded-lg  mb-6  w-[90%]">
           <div className="flex flex-col items-center gap-2">
             <div className="flex flex-row items-center gap-2 text-lg">

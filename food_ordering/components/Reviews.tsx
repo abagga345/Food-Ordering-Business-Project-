@@ -66,19 +66,19 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <div className="text-white w-[80%] mx-auto" id="testimonials">
+    <div className="text-white w-[80%] mx-auto bg-gray-50 px-10 pt-10 pb-5 my-20 rounded-xl border border-gray-100" id="testimonials">
       {loading ? (
         <p>Loading reviews...</p>
       ) : (
         <>
           {avgRating && (
-            <div className="text-center mb-4">
-              <h3 className="text-lg font-semibold">
-                Average Rating: {avgRating.toFixed(1)} ★
+            <div className="text-center">
+              <h3 className="text-xl font-semibold text-black">
+                Average Rating {avgRating.toFixed(1)} ★
               </h3>
             </div>
           )}
-          <div className="my-[50px] max-w-maxContentTab lg:max-w-maxContent">
+          <div className="max-w-maxContentTab lg:max-w-maxContent">
             <Swiper
               slidesPerView={3}
               spaceBetween={30}
@@ -93,7 +93,7 @@ export default function Testimonials() {
             >
               {reviews.map((review, i) => (
                 <SwiperSlide key={i}>
-                  <div className="p-5 bg-gray-50 text-black rounded-lg shadow-lg mx-4 my-10">
+                  <div className="p-5 bg-white text-black rounded-lg shadow-lg border border-gray-100 mx-4 my-10">
                     <div className="flex justify-between gap-2 mb-4">
                       <div className="flex items-center gap-4">
                         <img

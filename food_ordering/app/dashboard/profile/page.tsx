@@ -3,47 +3,47 @@ import { Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
-interface profile{
-  firstName:string;
-  lastName:string;
-  contactNo:string;
-  email:string;
+interface profile {
+  firstName: string;
+  lastName: string;
+  contactNo: string;
+  email: string;
 }
 
 const MyProfile = () => {
-  const [globaluser,setGlobalUser]=useState<profile>({ firstName: "", lastName: "" ,contactNo:"",email:""});
-  const [loading,setLoading]=useState(true);
-  const [error,setError]=useState(null);
-  
-  
-  useEffect(()=>{
+  const [globaluser, setGlobalUser] = useState<profile>({ firstName: "", lastName: "", contactNo: "", email: "" });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
+  useEffect(() => {
     setLoading(true);
     const toastId = toast.loading("Loading Profile..");
     fetch("http://localhost:3000/api/user/profile")
-      .then(async (data)=>{
-        let body=await data.json();
+      .then(async (data) => {
+        let body = await data.json();
         console.log(body);
         toast.dismiss(toastId);
         toast.success("Profile loaded successfully!", { id: toastId });
         setGlobalUser({
-          firstName:body.firstName,
-          lastName:body.lastName,
-          contactNo:body.contactNo,
-          email:body.email
+          firstName: body.firstName,
+          lastName: body.lastName,
+          contactNo: body.contactNo,
+          email: body.email
         })
-        
+
       })
-      .catch((err)=>{
+      .catch((err) => {
         toast.dismiss(toastId);
         console.log(err);
         setError(err.message);
         toast.error(`Error: ${err.message}`, { id: toastId });
       })
-      .finally(()=>{
+      .finally(() => {
         setLoading(false);
       })
-      
-  },[])
+
+  }, [])
 
   if (loading) {
     return (
@@ -69,26 +69,27 @@ const MyProfile = () => {
 
   return (
     <div className="flex flex-col p-4 md:p-6 gap-6 md:gap-10 w-full md:w-[80%] mx-auto justify-center items-center">
-      <h1 className="text-black font-semibold text-2xl md:text-4xl font-inter">
+      <h1 className="text-black font-semibold text-xl md:text-2xl font-inter">
         My Profile
       </h1>
       <div className="flex flex-col gap-6 md:gap-8 w-full">
-        <div className="flex flex-col md:flex-row gap-4 md:gap-4 justify-between items-center text-white bg-red-800 p-4 md:p-8 rounded-lg">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-4 justify-between items-center text-black bg-white p-4 md:p-8 rounded-lg shadow-lg">
           <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-between w-full">
-            <img
-              src={`https://api.dicebear.com/7.x/initials/svg?seed=${globaluser?.firstName}%20${globaluser?.lastName}`}
-              alt="profile"
-              className="aspect-square w-[78px] rounded-full object-cover"
-            />
-            <div className="flex flex-col md:items-start items-center text-center md:text-left">
-              <p className="text-lg">
-                
-                {globaluser?.firstName + " "}
-                {globaluser?.lastName ? globaluser?.lastName : ""}
-              </p>
-              <p className="text-[#838894] text-md">{globaluser?.email}</p>
+            <div className="flex flex-col md:flex-row items-center gap-10">
+              <img
+                src={`https://api.dicebear.com/7.x/initials/svg?seed=${globaluser?.firstName}%20${globaluser?.lastName}`}
+                alt="profile"
+                className="aspect-square w-[78px] rounded-full object-cover"
+              />
+              <div className="flex flex-col md:items-start items-center text-center md:text-left">
+                <p className="text-lg">
+                  {globaluser?.firstName + " "}
+                  {globaluser?.lastName ? globaluser?.lastName : ""}
+                </p>
+                <p className="text-[#838894] text-md">{globaluser?.email}</p>
+              </div>
             </div>
-            <button
+            {/* <button
               onClick={() => {
                 window.location.href = "/dashboard/settings";
               }}
@@ -97,7 +98,7 @@ const MyProfile = () => {
                 <AiFillEdit />
                 Edit
               </div>
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -160,10 +161,10 @@ const MyProfile = () => {
           </div>
         )} */}
 
-        <div className="flex flex-col gap-4 justify-between items-center text-white bg-red-800 p-4 md:p-8 rounded-lg w-full">
+        <div className="flex flex-col gap-4 justify-between items-center text-black bg-white p-4 md:p-8 rounded-lg shadow-lg w-full">
           <div className="flex flex-col gap-6 justify-between w-full">
             <div className="flex flex-row w-full justify-between items-center sm:gap-8">
-              <p className="text-lg">Profile Details</p>
+              <p className="text-xl">Profile Details</p>
               <button
                 onClick={() => {
                   window.location.href = "/dashboard/settings";
@@ -176,7 +177,9 @@ const MyProfile = () => {
               </button>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4 md:gap-8 w-full">
+            <hr />
+
+            <div className="flex flex-col md:flex-row w-full">
               <div className="flex flex-col gap-4 md:gap-8 w-full">
                 <div>
                   <p>First Name</p>
@@ -190,7 +193,7 @@ const MyProfile = () => {
                   <p className="text-[#838894]">{globaluser?.email}</p>
                 </div>
 
-                
+
 
                 {/* <div>
                   <p>Date Of Birth</p>

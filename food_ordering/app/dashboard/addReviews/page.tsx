@@ -112,7 +112,7 @@ const Reviews = () => {
                 value={review.content}
                 onChange={handleInputChange}
                 placeholder="Write your review here"
-                className="p-2 block w-full rounded-md border shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="p-3 block w-full rounded-md border shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 required
               />
             </div>
@@ -123,7 +123,7 @@ const Reviews = () => {
             <Button
               type="submit"
               disabled={!buttonstate}
-              className={`w-full flex justify-center mt-5 py-2 px-4 border border-transparent rounded-md shadow-sm 
+              className={`w-full flex text-white justify-center mt-5 py-2 px-4 border border-transparent rounded-md shadow-sm 
                 ${
                   buttonstate
                     ? "bg-green-600 hover:bg-green-700 focus:ring-indigo-500"
