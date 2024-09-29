@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ message: "Order added successfully", order: addedOrder });
+    return NextResponse.json({ message: "Order Created successfully", id: addedOrder.id });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
