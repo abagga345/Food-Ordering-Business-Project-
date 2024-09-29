@@ -11,6 +11,9 @@ export async function GET(req:NextRequest){
             where:{
                 email:email
             },
+            orderBy:{
+                timestamp:"desc"
+            },
             include:{
                 items:{
                     select:{

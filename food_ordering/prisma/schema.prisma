@@ -89,3 +89,10 @@ model OrderItems{
   order Orders @relation(fields: [orderId],references: [id])
   item Menu @relation(fields: [itemId],references: [id])
 }
+
+model MonthlySales {
+  month Int
+  year Int                               
+  totalSales Int                                  
+  @@id([year, month])  
+}

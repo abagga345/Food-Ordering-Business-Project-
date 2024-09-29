@@ -10,6 +10,9 @@ export async function GET(req:NextRequest){
                     notIn:['Delivered','Rejected']
                 }
             },
+            orderBy:{
+                timestamp:"asc"
+            },
             include:{
                 items:{
                     select:{

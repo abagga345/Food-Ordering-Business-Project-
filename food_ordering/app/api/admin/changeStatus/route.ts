@@ -9,6 +9,21 @@ export async function PUT(req:NextRequest){
         return NextResponse.json({"message":"Invalid Inputs"},{status:400});
     }
     try{
+        let currentOrder = await prisma.orders.findUnique({
+            where:{
+                id:body.orderId
+            },
+            select:{
+                status:true,amount:true,timestamp:true
+            },
+        })
+        if (currentOrder===null) {
+            return NextResponse.json({"message":"Order not found"},{status:404});
+        }
+        const previousState = currentOrder.status;
+        const currentAmount=currentOrder.amount;
+        const year = currentOrder.timestamp.getFullYear();
+        const month=currentOrder.timestamp.getMonth()+1;
         let updatedStatus=await prisma.orders.update({
             where:{
                 id:body.orderId
@@ -17,6 +32,28 @@ export async function PUT(req:NextRequest){
                 status:body.status
             }
         });
+
+        if (body.status==="Delivered" && previousState!=="Delivered") {
+            await prisma.monthlySales.upsert({
+                where: { year_month: { year, month } },
+                create: {
+                  year: year,
+                  month: month,
+                  totalSales: currentAmount,
+                },
+                update: {
+                  totalSales: { increment: currentAmount },
+                },
+              });
+        }
+
+        if (body.status !== "Delivered" && previousState === "Delivered") {
+            await prisma.monthlySales.update({
+              where: { year_month: { year, month } },
+              data: { totalSales: { decrement: currentAmount } },
+            });
+          }
+
         return NextResponse.json({"message":"Status updated Successfully"});
     }catch(err){
         console.log(err);
