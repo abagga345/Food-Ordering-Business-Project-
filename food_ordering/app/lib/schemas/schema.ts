@@ -17,13 +17,13 @@ export const signin=z.object({
 
 export const review=z.object({
     rating:z.literal(0).or(z.literal(1)).or(z.literal(2)).or(z.literal(3)).or(z.literal(4)).or(z.literal(5)),
-    description:z.string().min(1).max(70)
+    description:z.string().min(1).max(250)
 }).required()
 
 export const addItem=z.object({
     imageUrl:z.string(),
     amount:z.number().int().min(0),
-    description:z.string().max(50),
+    description:z.string().max(250),
     title:z.string().max(40)
 }).required()
 
