@@ -1,3 +1,6 @@
+import { Banknote } from 'lucide-react';
+import { Store } from 'lucide-react';
+
 "use-client";
 export default function Checkout() {
   return (
@@ -77,14 +80,15 @@ export default function Checkout() {
               />
               <span className="peer-checked:border-green-600 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
               <label
-                className="peer-checked:border peer-checked:border-green-500 peer-checked:bg-green-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                className="peer-checked:border peer-checked:border-green-500 peer-checked:bg-green-50 flex items-center cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                 htmlFor="radio_2"
               >
-                <img
+                {/* <img
                   className="w-14 object-contain"
                   src="/images/oG8xsl3xsOkwkMsrLGKM4.png"
                   alt=""
-                />
+                /> */}
+                <Banknote className='me-3 ms-4 text-green-600' />
                 <div className="ml-5">
                   <span className="mt-2 font-semibold">Cash On Delivery</span>
                   <p className="text-slate-500 text-sm leading-6">
@@ -103,14 +107,15 @@ export default function Checkout() {
               />
               <span className="peer-checked:border-green-600 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
               <label
-                className="peer-checked:border peer-checked:border-green-500 peer-checked:bg-green-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                className="peer-checked:border peer-checked:border-green-500 peer-checked:bg-green-50 flex items-center cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                 htmlFor="radio_3"
               >
-                <img
+                {/* <img
                   className="w-14 object-contain"
                   src="/images/oG8xsl3xsOkwkMsrLGKM4.png"
                   alt=""
-                />
+                /> */}
+                <Store className='me-3 ms-4 text-green-600' />
                 <div className="ml-5">
                   <span className="mt-2 font-semibold">
                     Pickup
@@ -259,7 +264,7 @@ export default function Checkout() {
               </div>
               <select
                 name="billing-state"
-                className="w-full rounded-md border bg-green-100 border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-green-500 focus:ring-green-500"
+                className="w-full rounded-md border bg-white border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-green-500 focus:ring-green-500"
               >
                 <option>Andhra Pradesh</option>
                 <option>Arunachal Pradesh</option>
@@ -302,7 +307,7 @@ export default function Checkout() {
                 type="text"
                 name="postalCode"
                 className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-green-500 focus:ring-green-500"
-                placeholder="Postal Code"
+                placeholder="Post Code"
               />
             </div>
             <label
@@ -316,7 +321,7 @@ export default function Checkout() {
                 type="text"
                 id="card-holder"
                 name="card-holder"
-                className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-green-500 focus:ring-green-500"
+                className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-green-500 focus:ring-green-500"
                 placeholder="Enter landmark"
               />
               <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -347,11 +352,11 @@ export default function Checkout() {
               </div>
             </div>
             <div className="mt-6 flex items-center justify-between">
-              <p className="text-sm font-medium text-gray-900">Total</p>
+              <p className="text-lg font-medium text-gray-900">Total</p>
               <p className="text-xl font-semibold text-gray-900">$408.00</p>
             </div>
           </div>
-          <button className="mt-4 mb-8 w-full rounded-md bg-green-600 hover:bg-green-700 px-6 py-3 font-medium text-white">
+          <button className="mt-6 mb-8 w-full rounded-md bg-green-600 hover:bg-green-700 px-6 py-3 font-medium text-white">
             Place Order
           </button>
         </div>
