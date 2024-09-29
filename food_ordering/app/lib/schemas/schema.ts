@@ -43,7 +43,7 @@ export const paymentId=z.object({
 })
 
 export const checkout=z.object({
-    description:z.string().max(75),
+    description:z.string().max(100),
     houseStreet:z.string().max(70),
     landmark:z.string().max(70),
     city:z.string().max(50),
