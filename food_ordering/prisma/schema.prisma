@@ -24,6 +24,12 @@ enum orderstatus{
   Dispatched
 }
 
+enum paymentMethods {
+  COD
+  UPI
+  StorePayment
+}
+
 model Users{
   id Int @id @default(autoincrement())
   firstName String
@@ -58,6 +64,7 @@ model Orders{
   timestamp DateTime @default(now())
   city String
   pincode String
+  paymentMethod paymentMethods @default(COD)
   user Users @relation(fields: [email],references: [email])
   items OrderItems[]
 }
