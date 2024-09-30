@@ -3,24 +3,41 @@ import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import { FaShoppingCart } from "react-icons/fa";
 
+interface MenuItem {
+  id: number;
+  title: string;
+  description: string;
+  amount: number;
+  imageUrl: string;
+  visibility: boolean;
+}
+
 const Menu = () => {
-  const [menuItems, setMenuItems] = useState([]);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedItems, setExpandedItems] = useState({});
-  const [quantities, setQuantities] = useState({});
-  const [cart, setCart] = useState([]);
-  const [showQuantity, setShowQuantity] = useState({}); // State to control quantity display
+  const [expandedItems, setExpandedItems] = useState<{
+    [key: number]: boolean;
+  }>({});
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
+  const [cart, setCart] = useState<{ [key: number]: number }>({});
+  const [showQuantity, setShowQuantity] = useState<{ [key: number]: boolean }>(
+    {}
+  ); // State to control quantity display
 
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
         const res = await fetch("/api/viewMenu"); // Assuming the API route is /api/menu
         const data = await res.json();
+        console.log(data.items);
         setMenuItems(data.items);
-        const initialQuantities = data.items.reduce((acc, item) => {
-          acc[item.id] = 0; // Default quantity is 1 for each item
-          return acc;
-        }, {});
+        const initialQuantities = data.items.reduce(
+          (acc: { [key: number]: number }, item: MenuItem) => {
+            acc[item.id] = 0; // Default quantity is 1 for each item
+            return acc;
+          },
+          {}
+        );
         setQuantities(initialQuantities);
       } catch (error) {
         console.error("Failed to fetch menu items:", error);
@@ -31,7 +48,9 @@ const Menu = () => {
 
     fetchMenuItems();
   }, []);
-
+  const saveCartToLocalStorage = (cartItems: { [key: number]: number }) => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  };
   const toggleExpand = (id: any) => {
     setExpandedItems((prev) => ({
       ...prev,
@@ -50,14 +69,15 @@ const Menu = () => {
     }
   };
 
-  const incrementQuantity = (id) => {
+  const incrementQuantity = (id: number) => {
     setQuantities((prev) => ({
       ...prev,
       [id]: prev[id] + 1,
     }));
+    updateCart(id, quantities[id] + 1);
   };
 
-  const decrementQuantity = (id) => {
+  const decrementQuantity = (id: number) => {
     setQuantities((prev) => {
       const newQuantity = prev[id] > 1 ? prev[id] - 1 : 0;
       // If quantity is set to 0, hide quantity display and show "Add to Cart" button again
@@ -66,6 +86,9 @@ const Menu = () => {
           ...prevShow,
           [id]: false,
         }));
+        removeFromCart(id);
+      } else {
+        updateCart(id, newQuantity);
       }
       return {
         ...prev,
@@ -73,26 +96,53 @@ const Menu = () => {
       };
     });
   };
-
-  const addToCart = (item) => {
-    const itemInCart = cart.find((cartItem) => cartItem.id === item.id);
-    if (itemInCart) {
-      setCart((prev) =>
-        prev.map((cartItem) =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + quantities[item.id] }
-            : cartItem
-        )
-      );
-    } else {
-      setCart((prev) => [...prev, { ...item, quantity: quantities[item.id] }]);
+  const addToCart = (id: number) => {
+    if (quantities[id] === 0) {
+      setQuantities((prev) => ({ ...prev, [id]: 1 }));
+      updateCart(id, 1);
     }
-    setQuantities((prev) => ({ ...prev, [item.id]: 1 })); // Reset quantity after adding to cart
-    setShowQuantity((prev) => ({ ...prev, [item.id]: false })); // Hide quantity input after adding to cart
+  };
+  const updateCart = (id: number, quantity: number) => {
+    if (quantity > 0) {
+      setCart((prevCart) => {
+        const updatedCart = {
+          ...prevCart,
+          [id]: quantity,
+        };
+        saveCartToLocalStorage(updatedCart);
+        return updatedCart;
+      });
+    }
   };
 
-  const toggleQuantity = (id) => {
+  const removeFromCart = (id: number) => {
+    setCart((prevCart) => {
+      const { [id]: _, ...remainingCart } = prevCart;
+      saveCartToLocalStorage(remainingCart);
+      return remainingCart;
+    });
+  };
+
+  // const addToCart = (item) => {
+  //   const itemInCart = cart.find((cartItem) => cartItem.id === item.id);
+  //   if (itemInCart) {
+  //     setCart((prev) =>
+  //       prev.map((cartItem) =>
+  //         cartItem.id === item.id
+  //           ? { ...cartItem, quantity: cartItem.quantity + quantities[item.id] }
+  //           : cartItem
+  //       )
+  //     );
+  //   } else {
+  //     setCart((prev) => [...prev, { ...item, quantity: quantities[item.id] }]);
+  //   }
+  //   setQuantities((prev) => ({ ...prev, [item.id]: 1 })); // Reset quantity after adding to cart
+  //   setShowQuantity((prev) => ({ ...prev, [item.id]: false })); // Hide quantity input after adding to cart
+  // };
+
+  const toggleQuantity = (id: number) => {
     incrementQuantity(id);
+    addToCart(id);
     setShowQuantity((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
