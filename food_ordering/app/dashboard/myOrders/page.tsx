@@ -56,13 +56,13 @@ const page = () => {
           throw new Error("Failed to fetch orders");
         }
         const data = await response.json();
-        setOrders(data.orders);
         // console.log(data.orders);
-        if (orders.length == 0) {
+        if (data.orders.length == 0) {
           toast.error("No Orders Placed Yet");
         } else {
           toast.success("Orders loaded successfully!", { id: toastId });
         }
+        setOrders(data.orders);
       } catch (error: any) {
         setError(error.message);
         toast.error(`Error: ${error.message}`, { id: toastId });
