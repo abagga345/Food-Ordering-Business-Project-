@@ -202,7 +202,7 @@ const AddItem = () => {
           <button
             type="submit"
             disabled={!buttonstate}
-            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm 
+            className={`w-full flex text-white justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm 
               ${
                 buttonstate
                   ? "bg-green-600 hover:bg-green-700 focus:ring-indigo-500"
@@ -210,7 +210,7 @@ const AddItem = () => {
               }`}
           >
             <PlusCircle className="mr-2 h-5 w-5" />
-            Add Item
+            <p>Add Item</p>
           </button>
         </div>
       </form>
