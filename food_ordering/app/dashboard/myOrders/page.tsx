@@ -10,6 +10,7 @@ import {
   Loader2,
   Wallet,
 } from "lucide-react";
+import Loader from "@/components/Loader";
 
 interface OrderItem {
   item: {
@@ -56,8 +57,12 @@ const page = () => {
         }
         const data = await response.json();
         setOrders(data.orders);
-        console.log(data.orders);
-        toast.success("Orders loaded successfully!", { id: toastId });
+        // console.log(data.orders);
+        if (orders.length == 0) {
+          toast.error("No Orders Placed Yet");
+        } else {
+          toast.success("Orders loaded successfully!", { id: toastId });
+        }
       } catch (error: any) {
         setError(error.message);
         toast.error(`Error: ${error.message}`, { id: toastId });
@@ -72,7 +77,7 @@ const page = () => {
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
-        <Loader2 className="w-10 h-10 animate-spin text-green-600" />
+        <Loader />
       </div>
     );
   if (error)
