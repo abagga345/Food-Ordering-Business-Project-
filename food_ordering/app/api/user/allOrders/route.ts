@@ -17,7 +17,8 @@ export async function GET(req:NextRequest){
             include:{
                 items:{
                     select:{
-                        quantity:true,itemId:true
+                        quantity:true,
+                        item:true
                     }
                 }
             }
