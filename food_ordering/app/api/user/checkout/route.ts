@@ -3,6 +3,7 @@ import prisma from "@/db";
 import { getServerSession } from "next-auth";
 import { NEXTAUTH_CONFIG } from "@/app/lib/auth";
 import { checkout } from "@/app/lib/schemas/schema";
+import { paymentMethods } from "@prisma/client";
 
 
 export async function POST(req: NextRequest) {
@@ -34,6 +35,9 @@ export async function POST(req: NextRequest) {
     }
 
     let calculatedAmount = 0;
+    const shipping=parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string);
+    const codcharges=parseInt(process.env.NEXT_PUBLIC_COD as string);
+    const taxrate = parseInt(process.env.NEXT_PUBLIC_TAX_RATE as string);
     for (const item of body.items) {
       const menuItem = existingItems.find(menuItem => menuItem.id === item.itemId);
       if (!menuItem || menuItem.available===false) {
@@ -48,6 +52,10 @@ export async function POST(req: NextRequest) {
 
       calculatedAmount += menuItem.amount * item.quantity;
     }
+    calculatedAmount += shipping + (body.paymentMethod === "COD" ? codcharges : 0);
+    const tax = calculatedAmount*taxrate/100;
+    const totalAmount = Math.round(calculatedAmount+tax);
+
 
     if (deleted===true) {
       return NextResponse.json({message : "Some items have been deleted"},{status:400});
@@ -56,7 +64,7 @@ export async function POST(req: NextRequest) {
     if (OutofStockItems.length>0) {
       return NextResponse.json({ message: "Some Items are Out of Stock" , Items:OutofStockItems}, { status: 400 });
     }
-    if (calculatedAmount !== body.amount) {
+    if (totalAmount !== body.amount) {
       return NextResponse.json({ message: "Incorrect Amount" }, { status: 400 });
     }
 
