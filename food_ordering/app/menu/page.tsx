@@ -108,14 +108,14 @@ const Menu = () => {
         <>
           <button
             onClick={() => decrementQuantity(item.id)}
-            className="px-3 py-1 bg-red-500 text-white rounded-md"
+            className="px-4 py-2 bg-gray-400 text-white rounded-md"
           >
             -
           </button>
           <span className="text-lg mx-2 w-6 text-center">{quantity}</span>
           <button
             onClick={() => incrementQuantity(item.id)}
-            className="px-3 py-1 bg-green-500 text-white rounded-md"
+            className="px-4 py-2 bg-green-500 text-white rounded-md"
           >
             +
           </button>
@@ -125,7 +125,7 @@ const Menu = () => {
       return (
         <button
           onClick={() => addToCart(item.id)}
-          className="p-2 bg-blue-600 text-white rounded-md flex items-center hover:shadow-md"
+          className="py-2 px-4 bg-green-600 text-white rounded-md flex items-center hover:shadow-md"
         >
           <FaShoppingCart className="mr-2" />
           Add
@@ -137,14 +137,14 @@ const Menu = () => {
   return loading ? (
     <div>
       <div className="font-semibold text-2xl w-full text-center my-4">Menu</div>
-      <div className="bg-gray-50 px-10 pt-10 pb-5 mt-6 mb-20 text-white w-[90%] mx-auto rounded-xl border border-gray-100">
+      <div className="bg-gray-50 px-10 pt-10 pb-20 mt-6 mb-20 text-white w-[80%] mx-auto rounded-xl border border-gray-100">
         <Loader />
       </div>
     </div>
   ) : (
     <div>
-      <div className="font-semibold text-2xl w-full text-center my-4">Menu</div>
-      <div className="bg-gray-50 px-10 pt-10 pb-5 mt-6 mb-20 text-white w-[90%] mx-auto rounded-xl border border-gray-100">
+      <div className="font-semibold text-3xl w-full text-center my-4">Menu</div>
+      <div className="bg-gray-50 px-10 pt-10 pb-20 mt-6 mb-20 text-white w-[80%] mx-auto rounded-xl border border-gray-100">
         {menuItems.length === 0 ? (
           <div className="text-center text-black font-semibold text-lg">
             No menu items available. Check Back Later...
@@ -154,15 +154,15 @@ const Menu = () => {
             {menuItems.map((item) => (
               <div
                 key={item.id}
-                className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex flex-col items-center hover:shadow-lg text-black h-auto"
+                className="bg-white px-6 py-4 rounded-lg shadow-sm border border-gray-200 flex flex-col hover:shadow-lg text-black h-auto"
               >
                 <img
                   src={item.imageUrl}
                   alt={item.title}
                   className="w-full h-64 object-cover rounded-md mb-4"
                 />
-                <div className="font-bold text-xl mb-2">{item.title}</div>
-                <div className="text-gray-700 text-center mb-4 h-10">
+                <div className="font-bold text-xl my-2">{item.title}</div>
+                <div className="text-gray-700 mb-4 h-10">
                   {expandedItems[item.id] ? (
                     <>
                       {item.description}
