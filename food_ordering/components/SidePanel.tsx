@@ -18,6 +18,7 @@ import ConfirmationModal from "./Components";
 import { IoIosSettings } from "react-icons/io";
 import { ImProfile } from "react-icons/im";
 import { FaCartArrowDown } from "react-icons/fa";
+import Loader from "./Loader";
 
 const navItems = [
   { href: "/", label: "Home", icon: IoHome, role: "All" },
@@ -75,6 +76,7 @@ const navItems = [
 
 const SidePanel = () => {
   const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(true);
   const [confirmationModal, setConfirmationModal] = useState(null);
   const pathname = usePathname();
   const handleLogout = async () => {
@@ -93,7 +95,8 @@ const SidePanel = () => {
 
   useEffect(() => {
     if (session) {
-      setRole(session?.user?.role);
+      setRole(session.user?.role);
+      setLoading(false);
     }
   }, [session]);
   return (
@@ -103,23 +106,27 @@ const SidePanel = () => {
           <MdDashboard className="inline" /> Dashboard
         </h2>
         <nav>
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              (item.role == role || item.role == "All") && (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex flex-row gap-2 items-center px-4 py-2 mb-2 rounded hover:bg-green-300 ${
-                    pathname === item.href ? "bg-green-300" : ""
-                  }`}
-                >
-                  <Icon className="mr-2" />
-                  {item.label}
-                </Link>
-              )
-            );
-          })}
+          {loading ? (
+            <Loader />
+          ) : (
+            navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                (item.role === role || item.role === "All") && (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex flex-row gap-2 items-center px-4 py-2 mb-2 rounded hover:bg-green-300 ${
+                      pathname === item.href ? "bg-green-300" : ""
+                    }`}
+                  >
+                    <Icon className="mr-2" />
+                    {item.label}
+                  </Link>
+                )
+              );
+            })
+          )}
         </nav>
       </div>
       <div className="flex flex-row gap-2 items-center px-4 py-2 mb-2 hover:bg-green-300 rounded">
