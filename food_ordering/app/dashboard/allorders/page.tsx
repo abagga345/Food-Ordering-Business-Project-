@@ -27,7 +27,7 @@ interface OrderItem {
   state: string;
   pincode: string;
   amount: number;
-  paymentMethod:string;
+  paymentMethod: string;
 }
 
 interface OrderItemDetail {
@@ -123,7 +123,7 @@ const AllOrders = () => {
           <thead>
             <tr className="bg-green-600 text-white">
               <th className="px-4 py-2">Order ID</th>
-              <th className="px-4 py-2">Description</th>
+              <th className="px-4 py-2">Amount</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2">Timestamp</th>
@@ -138,7 +138,7 @@ const AllOrders = () => {
                 onClick={() => handleOrderClick(order)}
               >
                 <td className="px-4 py-2 text-center">{order.id}</td>
-                <td className="px-4 py-2">{order.description}</td>
+                <td className="px-4 py-2">₹ {order.amount}</td>
                 <td className="px-4 py-2">{order.email}</td>
                 <td className="px-4 py-2">{order.status}</td>
                 <td className="px-4 py-2">
@@ -214,7 +214,7 @@ const OrderModal = ({
             label="Timestamp"
             value={new Date(order.timestamp).toLocaleString()}
           />
-           <OrderDetail
+          <OrderDetail
             icon={Wallet}
             label="Payment Method"
             value={order.paymentMethod}
