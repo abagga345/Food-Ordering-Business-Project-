@@ -83,6 +83,8 @@ export default function Home() {
               required
               className="border p-3 rounded mb-4"
             />
+            {emailError && <div className="text-red-500">{emailError}</div>}
+            {passwordError && <div className="text-red-500">{passwordError}</div>}
             {error && <div className="text-red-500">{error}</div>}
             <button
               type="submit"
