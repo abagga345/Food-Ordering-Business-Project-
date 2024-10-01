@@ -17,6 +17,7 @@ import { VscSignOut } from "react-icons/vsc";
 import ConfirmationModal from "./Components";
 import { IoIosSettings } from "react-icons/io";
 import { ImProfile } from "react-icons/im";
+import { FaCartArrowDown } from "react-icons/fa";
 
 const navItems = [
   { href: "/", label: "Home", icon: IoHome },
@@ -33,6 +34,7 @@ const navItems = [
 
   { href: "/dashboard/menu", label: "Menu", icon: MdOutlineMenuBook },
   { href: "/dashboard/addReviews", label: "Add Reviews", icon: MdRateReview },
+  { href: "/dashboard/myOrders", label: "My Orders", icon: FaCartArrowDown },
 ];
 
 const SidePanel = () => {
