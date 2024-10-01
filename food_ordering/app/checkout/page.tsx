@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { Banknote, Loader2 } from "lucide-react";
 import { Store } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -16,61 +17,97 @@ interface fields {
 interface Item{
     id:number;
     quantity:number;
-    amount:number;
+    price:number;
+    title:string;
+    imageUrl:string;
 }
 
-interface ItemBody{
-    items:Item[]
-}
 
-//items =========> JSON.stringify({ items: [ {id:,quantity:,price: }  ] } )
+
 export default function Checkout() {
-  const [amount,setAmount]=useState(0);
-  const [tax1,setTax1]=useState(0);
-  const [tax2,setTax2]=useState(0);
+  const [subtotal,setSubtotal]=useState(0);
+  const [tax,setTax]=useState(0);
   const [items,setItems]=useState<Item[]>([]);
   const [error,setError]=useState("");
-  const [message,setMessage]=useState("");
+  
   const [loading,setLoading]=useState(true);
+  
   const { register, handleSubmit,watch } = useForm<fields>({
     defaultValues: {
-      state: "Delhi", // Set default value as "Delhi"
+      state: "Delhi", 
     }
     } );
   const method=watch('paymentMethod');
+  const shipping=parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string);
+  const codcharges=parseInt(process.env.NEXT_PUBLIC_COD as string);
+
   
   
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
-    const itemstemp=localStorage.getItem("items");
-    if (!itemstemp){
-        setError("No Items Added to Cart");
+    const itemstemp = localStorage.getItem("cart");
+    if (!itemstemp) {
+      setError("No Items Added to Cart");
+      setLoading(false);
+      return;
     }
-    else{
-        const itemsbody:ItemBody=JSON.parse(itemstemp);
-        const itemsarr=itemsbody.items;
-        if (itemsarr===undefined || process.env.NEXT_PUBLIC_TAXRATE_1===undefined || process.env.NEXT_PUBLIC_TAXRATE_2===undefined){
-            setError("Internal Error due to taxation issues");
-            return;
-        }
-        let temp=0;
-        for(let i=0;i<itemsarr.length;i++){
-            temp+=(itemsarr[i]["amount"]*itemsarr[i]["quantity"]);
-        }
-        setTax1((parseInt(process.env.NEXT_PUBLIC_TAXRATE_1)*temp)/100);
-        setTax2((parseInt(process.env.NEXT_PUBLIC_TAXRATE_2)*temp)/100);
-        setItems(itemsarr);
-        setAmount(temp);
-    }
-    setLoading(false);
-   },[])
+  
+    const itemsbody = JSON.parse(itemstemp);
+    let n=Object.keys(itemsbody).length;
+    const itemsarr: Item[] = [];
+    let temp = 0;
+  
+    const fetchItems = Object.keys(itemsbody).map(async (key) => {
+      try {
+        const temp1: Item = { id: 0, quantity: 0, title: "", imageUrl: "", price: 0 };
+        const id = parseInt(key);
+        const quantity = itemsbody[key];
+        const body= await axios.get(`http://localhost:3000/api/viewMenuItem?id=${id}`);
+        
+        temp1.id = id;
+        temp1.price = body.data.amount;
+        temp1.imageUrl = body.data.imageUrl;
+        temp1.quantity = quantity;
+        temp1.title = body.data.title;
+        itemsarr.push(temp1);
+        temp += temp1.price * temp1.quantity;
+      } catch (err) {
+        delete itemsbody[key];
+        localStorage.setItem("cart", JSON.stringify(itemsbody));
+      }
+    });
+    Promise.all(fetchItems).then(() => {
+      if (itemsarr.length===0){
+        setError("Selected items are no longer available");
+        setLoading(false);
+        return;
+      }
+      if (itemsarr.length!=n){
+        //DISPLAY A MODAL THAT SOME ITEMS ARE NOT AVAILABLE
+
+
+      }
+      setItems(itemsarr);
+      setSubtotal(temp);
+      const total = temp + shipping + (method === "COD" ? codcharges : 0);
+      setTax(total * (parseInt(process.env.NEXT_PUBLIC_TAX_RATE as string) / 100));
+      setLoading(false);
+      
+    });
+  }, []);
+  
 
    
   
-  
-
-  
-  async function submithandler(data: fields) {
+  //THIS LOGIC SHOULD ONLY RUN ON UPDATES ON METHODS
+   //INITIAL MOUNTING HAS ALREADY BEEN RESOLVED IN OTHER useEffect
+   useEffect(()=>{
+        if (!loading){
+            setTax((parseInt(process.env.NEXT_PUBLIC_TAX_RATE as string)*(subtotal+shipping+(method=="COD"?codcharges:0)))/100);
+        }
+    },[method])
+    
+    async function submithandler(data: fields) {
     fetch("http://localhost:3000/api/user/checkout", {
       method: "POST",
       headers: {
@@ -83,14 +120,18 @@ export default function Checkout() {
         landmark: data.landmark,
         pincode: data.postalCode,
         paymentMethod: data.paymentMethod,
-        amount:amount+cod,
+        amount:Math.round(subtotal+(method==="COD"?codcharges:0)+parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string)+tax),
         items:items
       }),
     }).then(async (data)=>{
         let body=await data.json();
-        setMessage(`Order Placed successfully with id ${body.id}`);
+        //ORDER PLACED SUCCESSFULLY TOAST
+
+
+
+
     }).catch((err)=>{
-        setError("Unable to place error");
+        setError("Unable to place order");
     })
     }
 
@@ -102,12 +143,19 @@ export default function Checkout() {
         );
     }
     else if (error!="") {
-        //MAKE ERROR UI
+        return (
+            <div className="flex items-center justify-center h-screen">
+              <div
+                className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
+                role="alert"
+              >
+                <p className="font-bold">Error</p>
+                <p>{error}</p>
+              </div>
+            </div>
+        );
+    }
     
-    }
-    else if (message!=""){
-        // MAKE CONFIRMATION MESSAGE UI
-    }
 
 
   return (
@@ -120,39 +168,31 @@ export default function Checkout() {
               Check your items. And select a suitable shipping method.
             </p>
             <div className="mt-8 space-y-3 rounded-lg border bg-green-50 px-2 py-4 sm:px-6 border-green-100">
-              <div className="flex flex-col rounded-lg bg-green-50 sm:flex-row">
-                <img
-                  className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                  src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                  alt=""
-                />
-                <div className="flex w-full flex-col px-4 py-4">
-                  <span className="font-semibold">
-                    Nike Air Max Pro 8888 - Super Light
-                  </span>
-                  <span className="float-right text-gray-400">
-                    42EU - 8.5US
-                  </span>
-                  <p className="text-lg font-bold">$138.99</p>
-                </div>
-              </div>
-
-              <div className="flex flex-col rounded-lg bg-green-50 sm:flex-row">
-                <img
-                  className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                  src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                  alt=""
-                />
-                <div className="flex w-full flex-col px-4 py-4">
-                  <span className="font-semibold">
-                    Nike Air Max Pro 8888 - Super Light
-                  </span>
-                  <span className="float-right text-gray-400">
-                    42EU - 8.5US
-                  </span>
-                  <p className="mt-auto text-lg font-bold">$238.99</p>
-                </div>
-              </div>
+              {
+                items.map((item:Item)=>{
+                    return (
+                        <div className="flex flex-col rounded-lg bg-green-50 sm:flex-row">
+                            <img
+                            className="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                            src={item.imageUrl}
+                            alt=""
+                        />
+                        <div className="flex w-full flex-col px-4 py-4">
+                        <span className="font-semibold">
+                            {item.title}
+                        </span>
+                        <span className="float-right text-gray-400">
+                            Quantity added {item.quantity}
+                        </span>
+                        <span className="float-right text-gray-400">
+                            Unit price ₹ {item.price}
+                        </span>
+                        <p className="text-lg font-bold">₹ {item.price*item.quantity}</p>
+                        </div>
+                         </div>
+                    )
+                })
+              }
             </div>
 
             <p className="mt-8 text-lg font-medium">Payment Methods</p>
@@ -204,7 +244,7 @@ export default function Checkout() {
                   <div className="ml-5">
                     <span className="mt-2 font-semibold">Cash On Delivery</span>
                     <p className="text-slate-500 text-sm leading-6">
-                      +₹40 COD charge
+                      +₹ 40 COD charge
                     </p>
                   </div>
                 </label>
@@ -384,20 +424,24 @@ export default function Checkout() {
               <div className="mt-6 border-t border-b py-2">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Subtotal</p>
-                  <p className="font-semibold text-gray-900">$399.00</p>
+                  <p className="font-semibold text-gray-900">₹ {subtotal}</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Shipping</p>
-                  <p className="font-semibold text-gray-900">{parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string)}</p>
+                  <p className="font-semibold text-gray-900">₹ {parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-gray-900">COD Charges</p>
+                  <p className="font-semibold text-gray-900">{method==="COD"?codcharges:0}</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">TAX</p>
-                  <p className="font-semibold text-gray-900">{}</p>
+                  <p className="font-semibold text-gray-900">₹ {tax}</p>
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-between">
                 <p className="text-lg font-medium text-gray-900">Total</p>
-                <p className="text-xl font-semibold text-gray-900">{amount+(method==="COD"?40:0)+parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string)}</p>
+                <p className="text-xl font-semibold text-gray-900">₹ {Math.round(subtotal+(method==="COD"?codcharges:0)+parseInt(process.env.NEXT_PUBLIC_SHIPPING_COST as string)+tax)}</p>
               </div>
             </div>
             <button

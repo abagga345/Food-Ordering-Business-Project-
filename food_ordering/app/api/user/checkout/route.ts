@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
         description: body.description,
         houseStreet: body.houseStreet,
         landmark: body.landmark,
-        city: body.city,
+        state: body.state,
         pincode: body.pincode,
         payment_id: "000",
         status: "Unconfirmed",
