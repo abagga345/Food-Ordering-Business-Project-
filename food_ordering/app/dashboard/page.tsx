@@ -8,7 +8,7 @@ import { MdRateReview } from "react-icons/md";
 
 const Dashboard = () => {
   return (
-    <div className="bg-white p-8 rounded-lg m-6 w-[55%] mx-auto shadow-lg">
+    <div className="bg-white p-8 rounded-lg m-6 lg:w-[55%] mx-auto shadow-lg sm:w-[85%]">
       <div>
         <h1 className="text-3xl font-bold mb-5">
           <MdDashboard className="inline" /> Welcome to the Dashboard

@@ -1,7 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Clock, MapPin, Package, User, Info, Loader2,Wallet } from "lucide-react";
+import {
+  Clock,
+  MapPin,
+  Package,
+  User,
+  Info,
+  Loader2,
+  Wallet,
+} from "lucide-react";
 
 interface OrderItem {
   item: {
@@ -22,7 +30,7 @@ interface Order {
   pincode: string;
   items: OrderItem[];
   description?: string;
-  paymentMethod : string;
+  paymentMethod: string;
 }
 
 const PendingOrders = () => {
@@ -106,11 +114,11 @@ const PendingOrders = () => {
       <h1 className="text-3xl font-bold mb-10 text-gray-800 text-center">
         Pending Orders
       </h1>
-      <div className="md:grid md:grid-cols-2 gap-8">
+      <div className="md:grid md:grid-cols-2 md:gap-8 sm:grid sm:grid-cols-1">
         {orders.map((order, index) => (
           <div
             key={order.id}
-            className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
+            className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 mb-10"
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
@@ -158,9 +166,11 @@ const PendingOrders = () => {
                   <span className="text-gray-600 w-full">{`${order.houseStreet}, ${order.landmark}, ${order.state}, ${order.pincode}`}</span>
                 </div>
                 <div className="flex items-center">
-                  <Wallet className="w-5 h-5 mr-2 text-green-600"/>
-                  <span className="text-gray-600 w-full">{order.paymentMethod}</span>
-                  </div>
+                  <Wallet className="w-5 h-5 mr-2 text-green-600" />
+                  <span className="text-gray-600 w-full">
+                    {order.paymentMethod}
+                  </span>
+                </div>
               </div>
               <div className="border-t border-gray-200 pt-4">
                 <h3 className="text-lg font-semibold mb-2 text-gray-800">

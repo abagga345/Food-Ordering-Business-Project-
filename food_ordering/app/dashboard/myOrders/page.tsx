@@ -92,7 +92,7 @@ const page = () => {
         {orders.map((order, index) => (
           <div
             key={order.id}
-            className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
+            className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 mb-10"
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">

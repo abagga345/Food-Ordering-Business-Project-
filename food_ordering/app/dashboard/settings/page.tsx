@@ -9,47 +9,49 @@ import { useForm } from "react-hook-form";
 
 import toast from "react-hot-toast";
 
-interface profile{
-  firstName:string;
-  lastName:string;
-  contactNo:string;
-  email:string;
+interface profile {
+  firstName: string;
+  lastName: string;
+  contactNo: string;
+  email: string;
 }
 
 const Setting = () => {
-  const [globaluser,setGlobalUser]=useState<profile>({ firstName: "", lastName: "" ,contactNo:"",email:""});
-  const [loading,setLoading]=useState(true);
-  const [error,setError]=useState(null);
-  
-  
-  useEffect(()=>{
+  const [globaluser, setGlobalUser] = useState<profile>({
+    firstName: "",
+    lastName: "",
+    contactNo: "",
+    email: "",
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
     setLoading(true);
     const toastId = toast.loading("Loading Profile..");
     fetch("http://localhost:3000/api/user/profile")
-      .then(async (data)=>{
-        let body=await data.json();
+      .then(async (data) => {
+        let body = await data.json();
         console.log(body);
         toast.dismiss(toastId);
         toast.success("Profile loaded successfully!", { id: toastId });
         setGlobalUser({
-          firstName:body.firstName,
-          lastName:body.lastName,
-          contactNo:body.contactNo,
-          email:body.email
-        })
-        
+          firstName: body.firstName,
+          lastName: body.lastName,
+          contactNo: body.contactNo,
+          email: body.email,
+        });
       })
-      .catch((err)=>{
+      .catch((err) => {
         toast.dismiss(toastId);
         console.log(err);
         setError(err.message);
         toast.error(`Error: ${err.message}`, { id: toastId });
       })
-      .finally(()=>{
+      .finally(() => {
         setLoading(false);
-      })
-      
-  },[])
+      });
+  }, []);
 
   const { register, handleSubmit } = useForm();
 
@@ -57,11 +59,14 @@ const Setting = () => {
     const id = toast.loading("Saving...");
     console.log(data);
     try {
-      let response=await axios.put("http://localhost:3000/api/user/editProfile",{
-        firstName:data.firstName,
-        lastName:data.lastName,
-        contactNo:data.contactNo
-      })
+      let response = await axios.put(
+        "http://localhost:3000/api/user/editProfile",
+        {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          contactNo: data.contactNo,
+        }
+      );
       toast.dismiss(id);
       toast.success("Profile updated successfully!");
     } catch (error: any) {
@@ -100,7 +105,7 @@ const Setting = () => {
       </h1>
       <div className="flex flex-col gap-8 w-full">
         <div className="flex flex-row gap-4 justify-between items-center text-black bg-white p-8 rounded-lg shadow-lg">
-          <div className="flex flex-row gap-8 items-center justify-between">
+          <div className="md:flex md:flex-row gap-8 items-center justify-between">
             <img
               src={`https://api.dicebear.com/7.x/initials/svg?seed=${globaluser.firstName}%20${globaluser.lastName}`}
               alt="xyz"
@@ -182,7 +187,7 @@ const Setting = () => {
               </div>
 
               {/* <div className="flex flex-col gap-8 md:w-[40%] w-[100%]"> */}
-                {/* <label htmlFor="bloodType">
+              {/* <label htmlFor="bloodType">
                   <p className="text-[#F1F2FF]">Blood type</p>
                   <input
                     type="text"
@@ -220,7 +225,7 @@ const Setting = () => {
                   />
                 </label> */}
 
-                {/* {!loggedInTeacher && (
+              {/* {!loggedInTeacher && (
                   <>
                     <label htmlFor="rank">
                       <p className="text-[#F1F2FF]">Rank</p>
