@@ -95,7 +95,7 @@ const Reviews = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-white md:w-[45%] mx-auto rounded-lg mt-10 p-6 shadow-lg mt-10">
+    <div className="flex justify-center items-center bg-white md:w-[45%] mx-auto rounded-lg mt-10 p-6 shadow-lg">
       <Card className="w-full max-w-md">
         <CardHeader>
           <h1 className="text-2xl font-bold text-gray-800 mx-auto">
