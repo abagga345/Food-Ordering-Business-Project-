@@ -46,10 +46,13 @@ export default function Home() {
   };
   return (
     <div>
-      <div className="flex flex-col justify-center items-center my-10 mb-32 w-[60%] mx-auto">
+      <div className="flex flex-col justify-center items-center my-10 mb-32 md:w-[60%] w-[85%] mx-auto">
         <div className="text-3xl font-bold mb-16">Register</div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[40%]">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 md:w-[40%] w-[90%]"
+        >
           <input
             type="email"
             placeholder="Email"

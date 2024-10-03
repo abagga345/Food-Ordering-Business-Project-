@@ -64,8 +64,11 @@ export default function Home() {
     <div>
       <div className="flex flex-col justify-center items-center mt-10 mb-32">
         <div className="text-3xl font-bold mb-24">Log In</div>
-        <div className="flex flex-row gap-10 justify-between items-center w-[60%] mx-auto">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[40%]">
+        <div className="flex flex-col gap-10 justify-between items-center md:w-[60%] mx-auto w-[85%] md:flex-row">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 md:w-[40%] w-full"
+          >
             <input
               type="email"
               placeholder="Email"
@@ -84,7 +87,9 @@ export default function Home() {
               className="border p-3 rounded mb-4"
             />
             {emailError && <div className="text-red-500">{emailError}</div>}
-            {passwordError && <div className="text-red-500">{passwordError}</div>}
+            {passwordError && (
+              <div className="text-red-500">{passwordError}</div>
+            )}
             {error && <div className="text-red-500">{error}</div>}
             <button
               type="submit"
@@ -93,8 +98,8 @@ export default function Home() {
               Sign In
             </button>
           </form>
-          <div className="border-solid border-l-2 w-1 h-24"></div>
-          <div className="w-[40%]">
+          <div className="border-solid border-l-2 md:w-1 md:h-24 rotate-90 md:rotate-0 h-6 w-1"></div>
+          <div className="md:w-[40%] w-full">
             <p className="text-xl font-bold">New Customer</p>
             <p className="mt-4 mb-8 text-lg">
               Sign up for early Sale access plus tailored new arrivals, trends

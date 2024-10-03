@@ -90,6 +90,11 @@ export default function Navbar() {
                 All Products
               </p>
             </Link>
+            <Link href="/aboutus" className="">
+              <p className="hover-underline-animation font-semibold">
+                About Us
+              </p>
+            </Link>
           </div>
           <div className="w-[33.3%] flex flex-row justify-center items-center">
             <Link href="/">
