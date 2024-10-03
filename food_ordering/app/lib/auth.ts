@@ -15,17 +15,13 @@ export const NEXTAUTH_CONFIG={
             async authorize(credentials:any){
                 console.log(credentials);
                 if (!credentials?.email || !credentials?.password) {
-                    return null;
+                    throw new Error("Missing email or password");
                 }
                 try{
                     let exists=await axios.post("http://localhost:3000/api/signIn",{
                         email:credentials.email,
                         password:credentials.password
                     });
-                    
-                    if (exists.status!=200){
-                        return null;
-                    }
                     return {
                         id:exists.data.email,
                         role:exists.data.role,
@@ -33,7 +29,7 @@ export const NEXTAUTH_CONFIG={
                         lastName: exists.data.lastName
                     }
                 }catch(err){
-                    return null;
+                    throw new Error("Invalid email or password");
                 }
             }
 

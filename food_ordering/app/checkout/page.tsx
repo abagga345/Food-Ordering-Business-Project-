@@ -76,6 +76,7 @@ export default function Checkout() {
   const [loading, setLoading] = useState(true);
   const [outOfStockModal, setOutOfStockModal] = useState(false);
   const [outOfStockItems, setOutOfStockItems] = useState<OutItem[]>([]);
+  const [buttonstate, setbuttonstate] = useState(true);
 
   const { register, handleSubmit, watch } = useForm<fields>({
     defaultValues: {
@@ -171,6 +172,7 @@ export default function Checkout() {
   }, [method]);
 
   async function submithandler(data: fields) {
+    setbuttonstate(false);
     fetch("http://localhost:3000/api/user/checkout", {
       method: "POST",
       headers: {
@@ -213,6 +215,7 @@ export default function Checkout() {
       .catch((err) => {
         setError("Unable to place order");
       });
+     // setbuttonstate(true);
   }
 
   if (loading) {
@@ -546,7 +549,9 @@ export default function Checkout() {
               </div>
               <button
                 type="submit"
-                className="mt-6 mb-8 w-full rounded-md bg-green-600 hover:bg-green-700 px-6 py-3 font-medium text-white"
+                disabled={!buttonstate}
+                className={`mt-6 mb-8 w-full rounded-md px-6 py-3 font-medium text-white
+                  ${buttonstate ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 cursor-not-allowed'}`}
               >
                 Place Order
               </button>
